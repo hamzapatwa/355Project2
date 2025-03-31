@@ -14,33 +14,33 @@ fs.readFile("questions.json","utf-8",(err,data)=>{
   }
 });
 
+function newQuestions(req,res,next){
+    currentQuestion = questionObjects[Math.floor(Math.random() * 546)];
+      res.render('questions',{
+        Questions: currentQuestion.question,
+        Ans1: currentQuestion.A,
+        Ans2: currentQuestion.B,
+        Ans3: currentQuestion.C,
+        Ans4: currentQuestion.D,
+        Correctness: Correct
+      });
+}
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  currentQuestion = questionObjects[Math.floor(Math.random() * 546)];
-    res.render('questions',{
-      Questions: currentQuestion.question,
-      Ans1: currentQuestion.A,
-      Ans2: currentQuestion.B,
-      Ans3: currentQuestion.C,
-      Ans4: currentQuestion.D,
-      Correctness: Correct
-    });
-  
-});
+router.get('/', newQuestions);
+
 router.post('/submit', function(req, res, next) {
-  // console.log(req.body.Answer);
-  // console.log(currentQuestion.answer);
-  if(currentQuestion[currentQuestion.answer] === req.body.Answer)Correct = "true";
-  else Correct = "false";
-  currentQuestion = questionObjects[Math.floor(Math.random() * 546)];
-    res.render('questions',{
-      Questions: currentQuestion.question,
-      Ans1: currentQuestion.A,
-      Ans2: currentQuestion.B,
-      Ans3: currentQuestion.C,
-      Ans4: currentQuestion.D,
-      Correctness: Correct
-    });
+//  console.log(req.body);
+//  console.log(currentQuestion.answer); //Problem is here
+  if(currentQuestion != null && req.body.Answer != undefined){
+    if(currentQuestion[currentQuestion.answer] === req.body.Answer)Correct = "true";
+    else Correct = "false";
+    newQuestions(req,res,next);
+  }
+  else {
+    Correct = "no answer selected";
+    newQuestions(req,res,next);
+  }
+
 });
 
 
