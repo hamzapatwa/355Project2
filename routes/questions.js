@@ -3,8 +3,10 @@ var router = express.Router();
 var fs = require('fs');
 var questionObjects;
 var currentQuestion;
-var Correct = "";
-
+var correctNumber = 0;
+var questionNumber = 1;
+var maxQuestions = 10;
+var statusMessage ="";
 fs.readFile("questions.json","utf-8",(err,data)=>{
   if(err)console.log("Could Not Read Questions");
   else {
@@ -15,30 +17,39 @@ fs.readFile("questions.json","utf-8",(err,data)=>{
 });
 
 function newQuestions(req,res,next){
-    currentQuestion = questionObjects[Math.floor(Math.random() * 546)];
+    if(next != false){
+      currentQuestion = questionObjects[Math.floor(Math.random() * 546)];
+      statusMessage = "";
+    }
       res.render('questions',{
+        QNumber: questionNumber,
         Questions: currentQuestion.question,
         Ans1: currentQuestion.A,
         Ans2: currentQuestion.B,
         Ans3: currentQuestion.C,
         Ans4: currentQuestion.D,
-        Correctness: Correct
+        Status: statusMessage
       });
 }
-/* GET users listing. */
-router.get('/', newQuestions);
+
+router.get('/', (req,res,next)=>{
+  if(req.query.TotalQuestions === undefined)maxQuestions = req.body.TotalQuestions;
+  correctNumber = 0;
+  questionNumber = 1;
+  newQuestions(req,res,next);
+});
 
 router.post('/submit', function(req, res, next) {
-//  console.log(req.body);
-//  console.log(currentQuestion.answer); //Problem is here
+
   if(currentQuestion != null && req.body.Answer != undefined){
-    if(currentQuestion[currentQuestion.answer] === req.body.Answer)Correct = "true";
-    else Correct = "false";
-    newQuestions(req,res,next);
+    questionNumber++;
+    if(currentQuestion[currentQuestion.answer] === req.body.Answer)correctNumber++;
+    if(questionNumber > maxQuestions)res.send(`${correctNumber} correct Answers`);
+    else newQuestions(req,res,next);
   }
   else {
-    Correct = "no answer selected";
-    newQuestions(req,res,next);
+    statusMessage = "no answer selected";
+    newQuestions(req,res,false);
   }
 
 });

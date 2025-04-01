@@ -7,7 +7,10 @@
   <body>
     <h1><%= Quiz %></h1>
     <p>Welcome to <%= QuizApp %></p>
-    <button id = "Button"  >GOTO Quiz</button>
+    <form action="/questions" type="GET">
+      <input type="number" name="TotalQuestions" min="1" value="10">
+      <input type="submit" >GOTO Quiz</button>
+    </form>
   
   <script src="/javascripts/script.js"></script>
   </body>

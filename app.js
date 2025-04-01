@@ -6,7 +6,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var questionsRouter = require('./routes/questions');
-
+var resultRouter = require('./routes/result');
 var app = express();
 
 
@@ -22,7 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/questions', questionsRouter);
-
+app.use('/result',resultRouter);
 
 
 
