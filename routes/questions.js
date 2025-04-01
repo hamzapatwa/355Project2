@@ -33,7 +33,7 @@ function newQuestions(req,res,next){
 }
 
 router.get('/', (req,res,next)=>{
-  if(req.query.TotalQuestions === undefined)maxQuestions = req.body.TotalQuestions;
+  if(req.query.TotalQuestions != '')maxQuestions = req.query.TotalQuestions;
   correctNumber = 0;
   questionNumber = 1;
   newQuestions(req,res,next);
@@ -44,7 +44,11 @@ router.post('/submit', function(req, res, next) {
   if(currentQuestion != null && req.body.Answer != undefined){
     questionNumber++;
     if(currentQuestion[currentQuestion.answer] === req.body.Answer)correctNumber++;
-    if(questionNumber > maxQuestions)res.send(`${correctNumber} correct Answers`);
+    if(questionNumber > maxQuestions){
+      res.render('result',{
+        TotalCorrect: correctNumber
+      });
+    }
     else newQuestions(req,res,next);
   }
   else {
