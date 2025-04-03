@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/stylesheets/styleA.css">
+</head>
+<body>
+    <h1>Question Number <%= QNumber %></h1>
+    <h1> <%= Questions %></h1>
+    <form action="/questions/submit" method="POST">
+        <select multiple name="Answer">
+            <option class="choice"><%= Ans1 %></option>
+            <option class="choice"><%= Ans2 %></option>
+            <option class="choice"><%= Ans3 %></option>
+            <option class="choice"><%= Ans4 %></option>
+        </select>
+    <input type="submit">
+    </form>
+    <t1> <%= Status %></t1>
+
+</body>
+    <script src="/javascripts/scriptA.js"></script>
+</html>
