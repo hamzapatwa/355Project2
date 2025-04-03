@@ -1,0 +1,57 @@
+<%- include('partials/header', { username: username }) %>
+
+<div class="results-container">
+    <h2>Quiz Results</h2>
+    
+    <div class="score-summary">
+        <div class="score-card">
+            <h3>Final Score</h3>
+            <div class="score-value"><%= score %>/<%= totalQuestions %></div>
+            <div class="percentage <%= percentage >= 70 ? 'high' : percentage >= 40 ? 'medium' : 'low' %>">
+                <%= percentage %>%
+            </div>
+        </div>
+        
+        <div class="performance-message">
+            <% if (percentage >= 80) { %>
+                <p>Outstanding! You did an excellent job!</p>
+            <% } else if (percentage >= 60) { %>
+                <p>Great work! You have a good understanding of the subject.</p>
+            <% } else if (percentage >= 40) { %>
+                <p>Good effort! Keep practicing to improve your score.</p>
+            <% } else { %>
+                <p>Keep learning! Try again to improve your knowledge.</p>
+            <% } %>
+        </div>
+    </div>
+    
+    <div class="answer-review">
+        <h3>Questions Review</h3>
+        
+        <% answers.forEach((answer, index) => { %>
+            <div class="review-item <%= answer.isCorrect ? 'correct' : 'incorrect' %>">
+                <div class="review-question">
+                    <span class="question-number"><%= index + 1 %>.</span>
+                    <span class="question-text"><%= answer.question %></span>
+                </div>
+                
+                <div class="review-result">
+                    <% if (answer.isCorrect) { %>
+                        <span class="correct-icon">✅</span> Correct
+                    <% } else if (answer.selectedAnswer === '') { %>
+                        <span class="timeout-icon">⏱️</span> Time's Up
+                    <% } else { %>
+                        <span class="incorrect-icon">❌</span> Incorrect (You chose: <%= answer.selectedOptionText %>)
+                    <% } %>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+    
+    <div class="action-buttons">
+        <a href="/quiz/setup" class="btn btn-primary">Take Another Quiz</a>
+        <a href="/quiz/scores" class="btn btn-secondary">View Score History</a>
+    </div>
+</div>
+
+<%- include('partials/footer') %>
