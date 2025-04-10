@@ -120,6 +120,7 @@ router.post('/answer', async (req, res) => {
     selectedAnswer: isTimeUp ? '' : selectedAnswer,
     selectedOptionText: isTimeUp ? '' : currentQuestion[selectedAnswer], // Store the actual text of the selected option
     correctAnswer: currentQuestion.answer,
+    correctOptionText: currentQuestion[currentQuestion.answer],
     isCorrect
   });
   
