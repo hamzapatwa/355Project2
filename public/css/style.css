@@ -511,7 +511,7 @@ input[type="radio"]:checked + .option-label {
   background-color: var(--light-gray);
 }
 
-.score-percentage {
+.percentage {
   display: inline-block;
   padding: 0.3rem 0.8rem;
   border-radius: var(--border-radius);
