@@ -45,9 +45,9 @@
           <% if (feedback.isCorrect) { %>
             <p class="correct-message">Correct! Great job!</p>
           <% } else if (feedback.isTimeUp) { %>
-            <p class="timeout-message">Time's up! The correct answer was: <%= feedback.correctAnswer %> (<%= question[feedback.correctAnswer] %>)</p>
+            <p class="timeout-message">Time's up! The correct answer was:  (<%= question[feedback.correctAnswer] %>)</p>
           <% } else { %>
-            <p class="incorrect-message">Incorrect. The correct answer was: <%= feedback.correctAnswer %> (<%= question[feedback.correctAnswer] %>)</p>
+            <p class="incorrect-message">Incorrect. The correct answer was:  (<%= question[feedback.correctAnswer] %>)</p>
           <% } %>
         </div>
       <% } %>
@@ -66,9 +66,11 @@ document.addEventListener('DOMContentLoaded', function() {
   const answerForm = document.getElementById('answerForm');
   const hasOptions = document.querySelectorAll('input[name="answer"]');
   const submitBtn = document.querySelector('.submit-btn');
+  const timerContainer = document.querySelector('.timer-container');  // Select the timer container
   
   // Auto-advance when feedback is displayed.
   if (feedbackExists) {
+    timerContainer.style.display = 'none';
     const nextButton = document.createElement('a');
     nextButton.textContent = 'Continue to Next Question';
     nextButton.href = '/quiz/question';
@@ -83,12 +85,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 3000);
     return;
   }
-  
+
   // Timer: update every second and auto-submit when time runs out.
   const timerInterval = setInterval(function() {
     timeLeft--;
     timerElement.textContent = timeLeft;
     
+    // Add blinking effect if timeLeft is 5 seconds or less
+    if (timeLeft <= 5) {
+      timerContainer.classList.add('blinking');
+    }
+
     if (timeLeft <= 0) {
       clearInterval(timerInterval);
       timeUpField.value = 'true';

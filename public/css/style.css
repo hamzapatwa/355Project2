@@ -305,6 +305,7 @@ textarea:focus {
 
 .options {
   display: grid;
+  grid-template-columns: 1fr 1fr;
   grid-gap: 1rem;
   margin-bottom: 2rem;
 }
@@ -649,4 +650,20 @@ input[type="radio"]:checked + .option-label {
     width: 100%;
     margin-bottom: 1rem;
   }
+}
+
+@keyframes blink {
+  0% {
+    background-color: red;
+  }
+  50% {
+    background-color: orange;
+  }
+  100% {
+    background-color: red;
+  }
+}
+
+.blinking {
+  animation: blink 1s infinite;
 }
