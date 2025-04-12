@@ -20,7 +20,7 @@
                             <td><%= index + 1 %></td>
                             <td><%= score.score %>/<%= score.totalQuestions %></td>
                             <td>
-                                <div class="score-percentage <%= Math.round((score.score / score.totalQuestions) * 100) >= 70 ? 'high' : Math.round((score.score / score.totalQuestions) * 100) >= 40 ? 'medium' : 'low' %>">
+                                <div class="percentage <%= Math.round((score.score / score.totalQuestions) * 100) >= 70 ? 'high' : Math.round((score.score / score.totalQuestions) * 100) >= 40 ? 'medium' : 'low' %>">
                                     <%= Math.round((score.score / score.totalQuestions) * 100) %>%
                                 </div>
                             </td>
