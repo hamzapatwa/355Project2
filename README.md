@@ -2,6 +2,11 @@
 
 A full-stack quiz application built with Express.js and EJS templating engine.
 
+# Group Members
+Anthony He
+Hamza Patwa
+Justin Weng
+Arun
 ## Features
 
 | Feature | Contributer(s) |
