@@ -15,7 +15,7 @@ A full-stack quiz application built with Express.js and EJS templating engine.
 | Timer and Selecting Number of Questions | Anthony, Hamza |
 | Random Multiple-choice Questions with Feedback | Anthony, Hamza, Arun, Justin |
 | Score tracking, History and Take Multiple Quizes | Hamza, Justin, Arun |
-| Responsive design with modern CSS | Hamza, Justin |
+| Responsive design with modern CSS | Hamza, Justin, Arun |
 
 ## Tech Stack
 
