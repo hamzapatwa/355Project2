@@ -6,15 +6,15 @@ A full-stack quiz application built with Express.js and EJS templating engine.
 - Anthony He
 - Hamza Patwa
 - Justin Weng
-- Arun
+- Arun Kanhai
 ## Features
 
 | Feature | Contributer(s) |
 |-------------------------------------|-----|
 | User Authentication (Login/Signup) | Hamza |
-| Random quiz questions with timer | Anthony, Hamza |
-| Multiple-choice questions with visual feedback | Anthony, Hamza, Arun, Justin |
-| Score tracking and history | Hamza, Justin |
+| Timer and Selecting Number of Questions | Anthony, Hamza |
+| Random Multiple-choice Questions with Feedback | Anthony, Hamza, Arun, Justin |
+| Score tracking, History and Take Multiple Quizes | Hamza, Justin, Arun |
 | Responsive design with modern CSS | Hamza, Justin |
 
 ## Tech Stack
