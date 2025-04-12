@@ -4,11 +4,13 @@ A full-stack quiz application built with Express.js and EJS templating engine.
 
 ## Features
 
-- User Authentication (Login/Signup) - Hamza
-- Random quiz questions with timer - Anthony,Hamza
-- Multiple-choice questions with visual feedback - Anthony,Hamza
-- Score tracking and history - Justin, Hamza
-- Responsive design with modern CSS - Justin,Hamza
+| Feature | Contributer(s) |
+|-------------------------------------|-----|
+| User Authentication (Login/Signup) | Hamza |
+| Random quiz questions with timer | Anthony, Hamza |
+| Multiple-choice questions with visual feedback | Anthony, Hamza, Arun, Justin |
+| Score tracking and history | Hamza, Justin |
+| Responsive design with modern CSS | Hamza, Justin |
 
 ## Tech Stack
 
@@ -64,3 +66,4 @@ npm run dev
 Start the production server:
 ```
 npm start
+```
