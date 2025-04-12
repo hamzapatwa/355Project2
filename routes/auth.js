@@ -40,14 +40,14 @@ router.post('/login', async (req, res) => {
     } else {
       res.render('login', {
         error: 'Invalid username or password',
-        username // Keep the entered username for convenience
+        usernameP: username// Keep the entered username for convenience
       });
     }
   } catch (error) {
     console.error('Login error:', error);
     res.render('login', {
       error: 'An error occurred during login',
-      username
+      usernameP: username
     });
   }
 });
