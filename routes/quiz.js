@@ -1,5 +1,5 @@
 import express from 'express';
-import { readData, writeData } from '../utils/dataUtils.js';
+import { readData, readQuestions, writeData } from '../utils/dataUtils.js';
 import { requireLogin } from '../utils/authMiddleware.js';
 
 const router = express.Router();
@@ -9,6 +9,7 @@ router.use(requireLogin);
 
 // GET quiz setup - Allow user to choose timer duration
 router.get('/setup', (req, res) => {
+  
   res.render('quiz_setup', {
     username: req.session.username
   });
@@ -21,7 +22,7 @@ router.post('/start', async (req, res) => {
     const questionCount = parseInt(req.body.questionCount, 10) || 10; // Default to 10 questions
     
     // Load questions from data file
-    const questions = await readData('questions.json');
+    const questions = await readQuestions('questions.json');
     
     if (!questions || questions.length === 0) {
       return res.render('error', { 
@@ -164,19 +165,16 @@ router.get('/results', async (req, res) => {
   
   // Save score to user's profile
   try {
-    const users = await readData('users.json');
-    const userIndex = users.findIndex(u => u.id === req.session.userId);
+    const users = await readData('QuizData');
     
-    if (userIndex !== -1) {
       const scoreRecord = {
+        user: req.session.username,
         score: quizSession.score,
         totalQuestions: quizSession.totalQuestions,
         date: new Date().toISOString()
-      };
-      
-      users[userIndex].scores.push(scoreRecord);
-      await writeData('users.json', users);
-    }
+      }
+      await writeData(scoreRecord, users);
+    
     
     // Render results page
     res.render('quiz_results', {
@@ -202,16 +200,16 @@ router.get('/results', async (req, res) => {
 // GET user score history
 router.get('/scores', async (req, res) => {
   try {
-    const users = await readData('users.json');
-    const user = users.find(u => u.id === req.session.userId);
+    const users = await readData('QuizData');
+    const user = await users.find({"user":req.session.username}).sort({date:-1}).toArray();
     
-    if (!user) {
+    if (user[0] == undefined) {
       return res.redirect('/auth/logout');
     }
     
     res.render('score_history', {
-      username: user.username,
-      scores: user.scores
+      username: req.session.username,
+      scores: user
     });
   } catch (error) {
     console.error('Error fetching score history:', error);

@@ -6,6 +6,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { v4 as uuidv4 } from 'uuid'; // For session secret
 
+
 // Replicate __dirname functionality for ES Modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -13,6 +14,16 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+
+
+(async () => {
+    try {
+      await connectToDB();
+      console.log('Database initialized');
+    } catch (error) {
+      console.error('Failed to start database:', error);
+    }
+  })();
 // Middleware
 app.use(express.static(path.join(__dirname, 'public'))); // Serve static files (CSS, JS)
 app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded bodies (form data)
@@ -33,6 +44,7 @@ app.set('views', path.join(__dirname, 'views'));
 // Import routes
 import authRoutes from './routes/auth.js';
 import quizRoutes from './routes/quiz.js';
+import { connectToDB } from './utils/db.js';
 
 // Root route - redirect to login page
 app.get('/', (req, res) => {
