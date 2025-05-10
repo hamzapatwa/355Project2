@@ -1,0 +1,96 @@
+[
+  {
+    "id": "597577ba-112e-43ec-b838-41ff37024324",
+    "username": "hamza",
+    "password": "verver",
+    "scores": [
+      {
+        "score": 8,
+        "totalQuestions": 10,
+        "date": "2025-04-02T13:57:12.557Z"
+      },
+      {
+        "score": 0,
+        "totalQuestions": 3,
+        "date": "2025-04-02T14:19:04.584Z"
+      },
+      {
+        "score": 0,
+        "totalQuestions": 3,
+        "date": "2025-04-02T14:19:45.266Z"
+      },
+      {
+        "score": 0,
+        "totalQuestions": 3,
+        "date": "2025-04-02T14:24:03.911Z"
+      },
+      {
+        "score": 0,
+        "totalQuestions": 3,
+        "date": "2025-04-02T14:27:32.090Z"
+      },
+      {
+        "score": 0,
+        "totalQuestions": 3,
+        "date": "2025-04-02T14:29:20.142Z"
+      },
+      {
+        "score": 2,
+        "totalQuestions": 3,
+        "date": "2025-04-02T14:53:08.283Z"
+      },
+      {
+        "score": 2,
+        "totalQuestions": 3,
+        "date": "2025-04-02T14:54:24.656Z"
+      },
+      {
+        "score": 3,
+        "totalQuestions": 3,
+        "date": "2025-04-02T14:55:05.923Z"
+      },
+      {
+        "score": 2,
+        "totalQuestions": 3,
+        "date": "2025-04-02T14:55:36.833Z"
+      },
+      {
+        "score": 2,
+        "totalQuestions": 3,
+        "date": "2025-04-02T14:56:41.255Z"
+      },
+      {
+        "score": 2,
+        "totalQuestions": 3,
+        "date": "2025-04-02T15:21:24.348Z"
+      },
+      {
+        "score": 1,
+        "totalQuestions": 5,
+        "date": "2025-04-02T15:29:14.119Z"
+      },
+      {
+        "score": 4,
+        "totalQuestions": 10,
+        "date": "2025-04-02T15:31:39.439Z"
+      },
+      {
+        "score": 0,
+        "totalQuestions": 5,
+        "date": "2025-04-03T15:29:32.495Z"
+      },
+      {
+        "score": 0,
+        "totalQuestions": 5,
+        "date": "2025-04-11T17:24:28.300Z"
+      },
+      {
+        "score": 0,
+        "totalQuestions": 10,
+        "date": "2025-04-11T17:36:50.951Z"
+      }
+    ],
+    "isAdmin": true,
+    "createdAt": "2025-04-02T13:47:32.981Z"
+  }
+]

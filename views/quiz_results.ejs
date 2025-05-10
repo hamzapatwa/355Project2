@@ -1,0 +1,62 @@
+<%- include('partials/header', { username: username }) %>
+
+<div class="results-container">
+    <h2>Quiz Results</h2>
+    
+    <div class="score-summary">
+        <div class="score-card">
+            <h3>Final Score</h3>
+            <div class="score-value"><%= score %>/<%= totalQuestions %></div>
+            <div class="percentage <%= percentage >= 70 ? 'high' : percentage >= 40 ? 'medium' : 'low' %>">
+                <%= percentage %>%
+            </div>
+        </div>
+        
+        <div class="performance-message">
+            <% if (percentage >= 80) { %>
+                <p>Outstanding! You did an excellent job!</p>
+            <% } else if (percentage >= 60) { %>
+                <p>Great work! You have a good understanding of the subject.</p>
+            <% } else if (percentage >= 40) { %>
+                <p>Good effort! Keep practicing to improve your score.</p>
+            <% } else { %>
+                <p>Keep learning! Try again to improve your knowledge.</p>
+            <% } %>
+        </div>
+    </div>
+    
+     <div class="answer-review">
+        <h3>Questions Review</h3>
+        
+        <% answers.forEach((answer, index) => { %>
+            <details class="review-item <%= answer.isCorrect ? 'correct' : 'incorrect' %>" <%= answer.isCorrect ? '' : 'open' %>>
+                <summary>
+                    <strong><%= index + 1 %>.</strong> <%= answer.question %>
+                    <% if (answer.isCorrect) { %>
+                        ✅ Correct
+                    <% } else if (answer.selectedAnswer === '') { %>
+                        ⏱️ Time's Up
+                    <% } else { %>
+                        ❌ Incorrect
+                    <% } %>
+                </summary>
+                <div class="review-result-body">
+                    <% if (answer.selectedAnswer !== '') { %>
+                        <p><strong>Your Answer:</strong> <%= answer.selectedOptionText || 'N/A' %></p>
+                    <% } else { %>
+                        <p><strong>Your Answer:</strong> <em>No answer selected</em></p>
+                    <% } %>
+                    <p><strong>✅ Correct Answer:</strong> <%= answer.correctOptionText %></p>
+                </div>
+            </details>
+        <% }) %>
+    </div>
+   
+    
+    <div class="action-buttons">
+        <a href="/quiz/setup" class="btn btn-primary">Take Another Quiz</a>
+        <a href="/quiz/scores" class="btn btn-secondary">View Score History</a>
+    </div>
+</div>
+
+<%- include('partials/footer') %>
