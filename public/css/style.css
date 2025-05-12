@@ -101,6 +101,7 @@ header .container {
 nav ul {
   display: flex;
   list-style: none;
+  align-items: center;
 }
 
 nav li {

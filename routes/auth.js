@@ -98,7 +98,8 @@ router.post('/signup', async (req, res) => {
       username,
       password, // Note: In a real app, this should be hashed
       isAdmin: false, // Default to non-admin
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      profilePic: "https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg"
     };
     
     // Add user to database
