@@ -25,28 +25,33 @@
         </div>
     </div>
     
-    <div class="answer-review">
+     <div class="answer-review">
         <h3>Questions Review</h3>
         
         <% answers.forEach((answer, index) => { %>
-            <div class="review-item <%= answer.isCorrect ? 'correct' : 'incorrect' %>">
-                <div class="review-question">
-                    <span class="question-number"><%= index + 1 %>.</span>
-                    <span class="question-text"><%= answer.question %></span>
-                </div>
-                
-                <div class="review-result">
+            <details class="review-item <%= answer.isCorrect ? 'correct' : 'incorrect' %>" <%= answer.isCorrect ? '' : 'open' %>>
+                <summary>
+                    <strong><%= index + 1 %>.</strong> <%= answer.question %>
                     <% if (answer.isCorrect) { %>
-                        <span class="correct-icon">✅</span> Correct
+                        ✅ Correct
                     <% } else if (answer.selectedAnswer === '') { %>
-                        <span class="timeout-icon">⏱️</span> Time's Up
+                        ⏱️ Time's Up
                     <% } else { %>
-                        <span class="incorrect-icon">❌</span> Incorrect (You chose: <%= answer.selectedOptionText %>)
+                        ❌ Incorrect
                     <% } %>
+                </summary>
+                <div class="review-result-body">
+                    <% if (answer.selectedAnswer !== '') { %>
+                        <p><strong>Your Answer:</strong> <%= answer.selectedOptionText || 'N/A' %></p>
+                    <% } else { %>
+                        <p><strong>Your Answer:</strong> <em>No answer selected</em></p>
+                    <% } %>
+                    <p><strong>✅ Correct Answer:</strong> <%= answer.correctOptionText %></p>
                 </div>
-            </div>
+            </details>
         <% }) %>
     </div>
+   
     
     <div class="action-buttons">
         <a href="/quiz/setup" class="btn btn-primary">Take Another Quiz</a>

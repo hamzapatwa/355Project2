@@ -10,6 +10,7 @@ router.get('/login', (req, res) => {
   if (req.session && req.session.userId) {
     return res.redirect('/quiz/setup');
   }
+
   res.render('login', { error: null });
 });
 
@@ -24,30 +25,31 @@ router.post('/login', async (req, res) => {
   }
   
   try {
-    const users = await readData('users.json');
-    const user = users.find(u => u.username === username && u.password === password);
+    const users = await readData('UserData');
+    const user = await users.find({"username":username,"password":password}).toArray();
     
-    if (user) {
+    if (user[0]!= undefined) {
       // Store user ID in session
-      req.session.userId = user.id;
-      req.session.username = user.username;
+      //console.log(user);
+      req.session.userId = user[0]._id;
+      req.session.username = user[0].username;
       
       // Optional: Set admin status if needed
-      req.session.isAdmin = user.isAdmin || false;
-      
+      req.session.isAdmin = user[0].isAdmin || false;
       // Redirect to quiz setup
       res.redirect('/quiz/setup');
     } else {
+      console.log(user);
       res.render('login', {
         error: 'Invalid username or password',
-        username // Keep the entered username for convenience
+        usernameP: username// Keep the entered username for convenience
       });
     }
   } catch (error) {
     console.error('Login error:', error);
     res.render('login', {
       error: 'An error occurred during login',
-      username
+      usernameP: username
     });
   }
 });
@@ -80,10 +82,10 @@ router.post('/signup', async (req, res) => {
   }
   
   try {
-    const users = await readData('users.json');
-    
+    const users = await readData('UserData');
+    const user = await users.find({"username":username,"password":password}).toArray();
     // Check if username is already taken
-    if (users.some(u => u.username === username)) {
+    if (user[0]!= undefined) {
       return res.render('signup', {
         error: 'Username already exists',
         username
@@ -95,14 +97,13 @@ router.post('/signup', async (req, res) => {
       id: uuidv4(),
       username,
       password, // Note: In a real app, this should be hashed
-      scores: [],
       isAdmin: false, // Default to non-admin
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      profilePic: "https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg"
     };
     
     // Add user to database
-    users.push(newUser);
-    await writeData('users.json', users);
+    await writeData(newUser,users);
     
     // Log the user in
     req.session.userId = newUser.id;

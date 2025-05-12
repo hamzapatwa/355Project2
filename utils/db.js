@@ -1,5 +1,6 @@
 import { MongoClient } from 'mongodb';
 
+
 const uri = process.env.ATLAS_URI;
 if (!uri) {
     throw new Error('MONGODB_URI is not defined in your .env file');
@@ -39,3 +40,35 @@ const closeDB = async () => {
 };
 
 export { connectDB, getDB, closeDB };
+=======
+import dotenv from 'dotenv';
+dotenv.config();
+const dbURL = process.env.ATLAS_URI; 
+
+let db;
+export async function connectToDB() {
+  console.log(dbURL);
+  try {
+    const client = new MongoClient(dbURL, { useUnifiedTopology: true });
+    await client.connect();
+    console.log('Connected to MongoDB');
+    db = client.db('QuizApp');
+  } catch (error) {
+    console.error('Error connecting to MongoDB:', error);
+    throw error;
+  }
+}
+
+export function getCollection(collectionName) {
+  if (!db) {
+    throw new Error('Database connection not established. Call connectToDB first.');
+  }
+  return db.collection(collectionName);
+}
+export function listCollection() {
+  if (!db) {
+    throw new Error('Database connection not established. Call connectToDB first.');
+  }
+  return db.listCollections();
+}
+

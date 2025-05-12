@@ -101,6 +101,7 @@ header .container {
 nav ul {
   display: flex;
   list-style: none;
+  align-items: center;
 }
 
 nav li {
@@ -305,6 +306,7 @@ textarea:focus {
 
 .options {
   display: grid;
+  grid-template-columns: 1fr 1fr;
   grid-gap: 1rem;
   margin-bottom: 2rem;
 }
@@ -511,7 +513,7 @@ input[type="radio"]:checked + .option-label {
   background-color: var(--light-gray);
 }
 
-.score-percentage {
+.percentage {
   display: inline-block;
   padding: 0.3rem 0.8rem;
   border-radius: var(--border-radius);
@@ -649,4 +651,20 @@ input[type="radio"]:checked + .option-label {
     width: 100%;
     margin-bottom: 1rem;
   }
+}
+
+@keyframes blink {
+  0% {
+    background-color: red;
+  }
+  50% {
+    background-color: orange;
+  }
+  100% {
+    background-color: red;
+  }
+}
+
+.blinking {
+  animation: blink 1s infinite;
 }

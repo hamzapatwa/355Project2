@@ -1,5 +1,5 @@
 import express from 'express';
-import { readData, writeData } from '../utils/dataUtils.js';
+import { readData, readQuestions, writeData } from '../utils/dataUtils.js';
 import { requireLogin } from '../utils/authMiddleware.js';
 
 const router = express.Router();
@@ -8,9 +8,13 @@ const router = express.Router();
 router.use(requireLogin);
 
 // GET quiz setup - Allow user to choose timer duration
-router.get('/setup', (req, res) => {
+router.get('/setup',async (req, res) => {
+  const users = await readData('UserData');
+  const user = await users.find({"username":req.session.username}).toArray();
+  req.session.profilePic = user[0].profilePic;
   res.render('quiz_setup', {
-    username: req.session.username
+    username: req.session.username,
+    profilePic: req.session.profilePic
   });
 });
 
@@ -21,12 +25,13 @@ router.post('/start', async (req, res) => {
     const questionCount = parseInt(req.body.questionCount, 10) || 10; // Default to 10 questions
     
     // Load questions from data file
-    const questions = await readData('questions.json');
+    const questions = await readQuestions('questions.json');
     
     if (!questions || questions.length === 0) {
       return res.render('error', { 
         username: req.session.username,
         message: 'No questions available',
+        profilePic: req.session.profilePic,
         error: { status: 404 }
       });
     }
@@ -59,6 +64,7 @@ router.post('/start', async (req, res) => {
     res.render('error', {
       username: req.session.username,
       message: 'Failed to start quiz',
+      profilePic: req.session.profilePic,
       error
     });
   }
@@ -79,7 +85,8 @@ router.get('/question', (req, res) => {
   
   const currentQuestion = quizSession.questions[quizSession.currentIndex];
   res.render('quiz_question', {
-    username: req.session.username, // Pass username for header
+    username: req.session.username,
+    profilePic: req.session.profilePic, // Pass username for header
     question: currentQuestion,
     questionNumber: quizSession.currentIndex + 1,
     totalQuestions: quizSession.totalQuestions,
@@ -120,6 +127,7 @@ router.post('/answer', async (req, res) => {
     selectedAnswer: isTimeUp ? '' : selectedAnswer,
     selectedOptionText: isTimeUp ? '' : currentQuestion[selectedAnswer], // Store the actual text of the selected option
     correctAnswer: currentQuestion.answer,
+    correctOptionText: currentQuestion[currentQuestion.answer],
     isCorrect
   });
   
@@ -133,6 +141,7 @@ router.post('/answer', async (req, res) => {
   if (req.body.showFeedback === 'true' && !isLastQuestion) {
     return res.render('quiz_question', {
       username: req.session.username,
+      profilePic: req.session.profilePic,
       question: currentQuestion,
       questionNumber: quizSession.currentIndex,
       totalQuestions: quizSession.totalQuestions,
@@ -163,23 +172,21 @@ router.get('/results', async (req, res) => {
   
   // Save score to user's profile
   try {
-    const users = await readData('users.json');
-    const userIndex = users.findIndex(u => u.id === req.session.userId);
+    const users = await readData('QuizData');
     
-    if (userIndex !== -1) {
       const scoreRecord = {
+        user: req.session.username,
         score: quizSession.score,
         totalQuestions: quizSession.totalQuestions,
         date: new Date().toISOString()
-      };
-      
-      users[userIndex].scores.push(scoreRecord);
-      await writeData('users.json', users);
-    }
+      }
+      await writeData(scoreRecord, users);
+    
     
     // Render results page
     res.render('quiz_results', {
-      username: req.session.username, // Pass username for header
+      username: req.session.username,
+      profilePic: req.session.profilePic, // Pass username for header
       score: quizSession.score,
       totalQuestions: quizSession.totalQuestions,
       percentage: Math.round((quizSession.score / quizSession.totalQuestions) * 100),
@@ -192,6 +199,7 @@ router.get('/results', async (req, res) => {
     console.error('Error saving quiz results:', error);
     res.render('error', {
       username: req.session.username,
+      profilePic: req.session.profilePic,
       message: 'Failed to save quiz results',
       error
     });
@@ -201,21 +209,28 @@ router.get('/results', async (req, res) => {
 // GET user score history
 router.get('/scores', async (req, res) => {
   try {
-    const users = await readData('users.json');
-    const user = users.find(u => u.id === req.session.userId);
+    const users = await readData('QuizData');
+    const user = await users.find({"user":req.session.username}).sort({date:-1}).toArray();
     
-    if (!user) {
-      return res.redirect('/auth/logout');
+    if (user[0] == undefined) {
+      res.render('error', {
+        message: 'User Does not have Score History',
+        profilePic: req.session.profilePic,
+        user: req.session.username,
+        error
+      });
     }
-    
+    //NEED TO LOOK AT ABOVE
     res.render('score_history', {
-      username: user.username,
-      scores: user.scores
+      username: req.session.username,
+      profilePic:req.session.profilePic,
+      scores: user
     });
   } catch (error) {
     console.error('Error fetching score history:', error);
     res.render('error', {
       message: 'Failed to fetch score history',
+      profilePic: req.session.profilePic,
       error
     });
   }
