@@ -668,3 +668,26 @@ input[type="radio"]:checked + .option-label {
 .blinking {
   animation: blink 1s infinite;
 }
+body.quiz-body {
+  background: url('/mario-scroll-background.png') repeat-x;
+
+  background-size: contain;
+  animation: scrollBackground 60s linear infinite;
+  color: var(--light-text);
+  margin: 0;
+  height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Animation for horizontal scroll */
+@keyframes scrollBackground {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -3000px 0;
+  }
+}
