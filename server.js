@@ -6,7 +6,6 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { v4 as uuidv4 } from 'uuid'; // For session secret
 
-
 // Replicate __dirname functionality for ES Modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -14,16 +13,6 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-
-
-(async () => {
-    try {
-      await connectToDB();
-      console.log('Database initialized');
-    } catch (error) {
-      console.error('Failed to start database:', error);
-    }
-  })();
 // Middleware
 app.use(express.static(path.join(__dirname, 'public'))); // Serve static files (CSS, JS)
 app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded bodies (form data)
@@ -31,7 +20,7 @@ app.use(session({
     secret: 'quiz-app-fixed-secret', // Using a fixed secret to maintain sessions across server restarts
     resave: false,
     saveUninitialized: true, // Save session even if not modified (needed for tracking quiz state)
-    cookie: { 
+    cookie: {
         secure: false, // Set to true if using HTTPS
         maxAge: 24 * 60 * 60 * 1000 // Session expires after 24 hours of inactivity
     }
@@ -78,7 +67,19 @@ app.use((err, req, res, next) => {
     });
 });
 
-// Start Server
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-});
+// Start Server Function
+const startServer = async () => {
+  try {
+    console.log("Connecting to database before starting server..."); // Added log
+    await connectToDB(); // Call and wait for DB connection
+    app.listen(PORT, () => {
+      console.log(`Server running on http://localhost:${PORT}`); // Existing log
+      console.log("Database connected and server started."); // Added log
+    });
+  } catch (err) {
+    console.error("Failed to start server:", err);
+    process.exit(1);
+  }
+};
+
+startServer(); // Execute the async function

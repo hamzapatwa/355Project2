@@ -1,0 +1,55 @@
+<%- include('partials/header', { username: username }) %>
+
+<div class="profile-container">
+    <h2>My Profile</h2>
+
+    <% if (typeof error !== 'undefined' && error) { %>
+        <p class="error-message"><%= error %></p>
+    <% } %>
+
+    <div class="profile-details">
+        <p><strong>Username:</strong> <%= username %></p>
+        <% if (typeof email !== 'undefined' && email) { %>
+            <p><strong>Email:</strong> <%= email %></p>
+        <% } %>
+        <p><strong>Total Accumulated Score:</strong> <%= totalAccumulatedScore %></p>
+        <p><strong>Member Since:</strong> <%= new Date(memberSince).toLocaleDateString() %></p>
+    </div>
+
+    <h3>Quiz History</h3>
+    <% if (quizHistory && quizHistory.length > 0) { %>
+        <table class="table quiz-history-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Category</th>
+                    <th>Difficulty</th>
+                    <th>Score</th>
+                    <th>Total Questions</th>
+                    <th>Percentage</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% quizHistory.forEach(quiz => { %>
+                    <tr>
+                        <td><%= new Date(quiz.datePlayed).toLocaleDateString() %> <%= new Date(quiz.datePlayed).toLocaleTimeString() %></td>
+                        <td><%= quiz.categoryName || 'N/A' %></td>
+                        <td><%= quiz.difficulty || 'N/A' %></td>
+                        <td><%= quiz.score %></td>
+                        <td><%= quiz.totalQuestions %></td>
+                        <td><%= quiz.totalQuestions > 0 ? Math.round((quiz.score / quiz.totalQuestions) * 100) : 0 %>%</td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <p>You haven't played any quizzes yet. <a href="/quiz/setup">Start a new quiz!</a></p>
+    <% } %>
+
+    <div class="profile-actions">
+        <a href="/quiz/setup" class="btn btn-primary">Play New Quiz</a>
+        <a href="/leaderboard" class="btn btn-info">View Leaderboard</a>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

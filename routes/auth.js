@@ -1,8 +1,11 @@
 import express from 'express';
-import { v4 as uuidv4 } from 'uuid';
-import { readData, writeData } from '../utils/dataUtils.js';
+import bcrypt from 'bcrypt';
+import { getDB } from '../utils/db.js';
+import { ObjectId } from 'mongodb'; // For fetching user by _id
+import { requireLogin } from '../utils/authMiddleware.js'; // For protecting profile route
 
 const router = express.Router();
+const SALT_ROUNDS = 10; // For bcrypt
 
 // GET login page
 router.get('/login', (req, res) => {
@@ -10,46 +13,42 @@ router.get('/login', (req, res) => {
   if (req.session && req.session.userId) {
     return res.redirect('/quiz/setup');
   }
-
   res.render('login', { error: null });
 });
 
 // POST login form
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
-  
+
   if (!username || !password) {
     return res.render('login', {
       error: 'Username and password are required'
     });
   }
-  
+
   try {
-    const users = await readData('UserData');
-    const user = await users.find({"username":username,"password":password}).toArray();
-    
-    if (user[0]!= undefined) {
+    const db = getDB();
+    const user = await db.collection('users').findOne({ username });
+
+    if (user && await bcrypt.compare(password, user.password)) {
       // Store user ID in session
-      //console.log(user);
-      req.session.userId = user[0]._id;
-      req.session.username = user[0].username;
-      
-      // Optional: Set admin status if needed
-      req.session.isAdmin = user[0].isAdmin || false;
+      req.session.userId = user._id.toString(); // Convert ObjectId to string
+      req.session.username = user.username;
+
       // Redirect to quiz setup
       res.redirect('/quiz/setup');
     } else {
       console.log(user);
       res.render('login', {
         error: 'Invalid username or password',
-        usernameP: username// Keep the entered username for convenience
+        username // Keep the entered username for convenience
       });
     }
   } catch (error) {
     console.error('Login error:', error);
-    res.render('login', {
-      error: 'An error occurred during login',
-      usernameP: username
+    res.status(500).render('login', { // Send 500 status for server errors
+      error: 'An error occurred during login. Please try again.',
+      username
     });
   }
 });
@@ -65,7 +64,7 @@ router.get('/signup', (req, res) => {
 // POST signup form
 router.post('/signup', async (req, res) => {
   const { username, password, confirmPassword } = req.body;
-  
+
   // Validate input
   if (!username || !password) {
     return res.render('signup', {
@@ -73,48 +72,47 @@ router.post('/signup', async (req, res) => {
       username
     });
   }
-  
+
   if (password !== confirmPassword) {
     return res.render('signup', {
       error: 'Passwords do not match',
       username
     });
   }
-  
+
   try {
-    const users = await readData('UserData');
-    const user = await users.find({"username":username,"password":password}).toArray();
-    // Check if username is already taken
-    if (user[0]!= undefined) {
+    const db = getDB();
+    const existingUser = await db.collection('users').findOne({ username });
+
+    if (existingUser) {
       return res.render('signup', {
         error: 'Username already exists',
         username
       });
     }
-    
-    // Create new user
+
+    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+
     const newUser = {
-      id: uuidv4(),
       username,
-      password, // Note: In a real app, this should be hashed
-      isAdmin: false, // Default to non-admin
-      createdAt: new Date().toISOString(),
-      profilePic: "https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg"
+      password: hashedPassword,
+      totalAccumulatedScore: 0,
+      quizHistory: [],
+      createdAt: new Date() // MongoDB will store as ISODate
     };
-    
-    // Add user to database
-    await writeData(newUser,users);
-    
+
+    const result = await db.collection('users').insertOne(newUser);
+
     // Log the user in
-    req.session.userId = newUser.id;
+    req.session.userId = result.insertedId.toString(); // Get the new user's _id
     req.session.username = newUser.username;
-    
+
     // Redirect to quiz setup
     res.redirect('/quiz/setup');
   } catch (error) {
     console.error('Signup error:', error);
-    res.render('signup', {
-      error: 'An error occurred during signup',
+    res.status(500).render('signup', { // Send 500 status for server errors
+      error: 'An error occurred during signup. Please try again.',
       username
     });
   }
@@ -132,3 +130,38 @@ router.get('/logout', (req, res) => {
 });
 
 export default router;
+
+// GET user profile page
+router.get('/profile', requireLogin, async (req, res) => {
+  try {
+    const db = getDB();
+    const userId = req.session.userId;
+
+    const user = await db.collection('users').findOne({ _id: new ObjectId(userId) });
+
+    if (!user) {
+      // This should not happen if requireLogin and session are working
+      console.error(`User not found for profile: ${userId}`);
+      return res.redirect('/auth/login');
+    }
+
+    // Sort quiz history by date, most recent first
+    const sortedQuizHistory = user.quizHistory ? user.quizHistory.sort((a, b) => new Date(b.datePlayed) - new Date(a.datePlayed)) : [];
+
+    res.render('profile', {
+      username: user.username,
+      email: user.email,
+      totalAccumulatedScore: user.totalAccumulatedScore || 0,
+      quizHistory: sortedQuizHistory,
+      memberSince: user.createdAt,
+      error: null
+    });
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
+    res.status(500).render('error', { // Generic error page
+        username: req.session.username,
+        message: 'Could not load your profile. Please try again later.',
+        error
+    });
+  }
+});
