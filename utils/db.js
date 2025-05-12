@@ -2,7 +2,7 @@ import { MongoClient } from 'mongodb';
 
 import dotenv from 'dotenv';
 dotenv.config();
-const dbURL = process.env.ATLAS_URI; 
+const dbURL = process.env.ATLAS_URI;
 
 const uri = process.env.ATLAS_URI;
 if (!uri) {
@@ -12,15 +12,17 @@ if (!uri) {
 let client;
 let db;
 
-const connectDB = async () => {
+const connectToDB = async () => {
     if (db) {
+        console.log("Database connection already established."); // Added log
         return db;
     }
     try {
+        console.log("Attempting to connect to MongoDB..."); // Added log
         client = new MongoClient(uri);
         await client.connect();
-        db = client.db(); 
-        console.log("Successfully connected to MongoDB.");
+        db = client.db();
+        console.log("Successfully connected to MongoDB."); // Existing log
         return db;
     } catch (err) {
         console.error("Failed to connect to MongoDB", err);
@@ -30,7 +32,7 @@ const connectDB = async () => {
 
 const getDB = () => {
     if (!db) {
-        throw new Error("Database not initialized. Call connectDB first.");
+        throw new Error("Database not initialized. Call connectToDB first.");
     }
     return db;
 };
@@ -43,18 +45,7 @@ const closeDB = async () => {
 };
 
 
-export async function connectToDB() {
-  console.log(dbURL);
-  try {
-    const client = new MongoClient(dbURL, { useUnifiedTopology: true });
-    await client.connect();
-    console.log('Connected to MongoDB');
-    db = client.db('QuizApp');
-  } catch (error) {
-    console.error('Error connecting to MongoDB:', error);
-    throw error;
-  }
-}
+
 
 export function getCollection(collectionName) {
   if (!db) {
@@ -69,4 +60,4 @@ export function listCollection() {
   return db.listCollections();
 }
 
-export { connectDB, getDB, closeDB };
+export { connectToDB, getDB, closeDB };

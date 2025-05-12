@@ -1,0 +1,73 @@
+<%- include('partials/header', { username: username }) %>
+
+<div class="leaderboard-container">
+    <h2>Leaderboard <% if (selectedCategoryName && selectedCategoryName !== 'All') { %>- <%= selectedCategoryName %><% } %><% if (selectedDifficulty && selectedDifficulty !== 'Any' && selectedDifficulty !== '') { %> (<%= selectedDifficulty.charAt(0).toUpperCase() + selectedDifficulty.slice(1) %>)<% } %></h2>
+
+    <% if (typeof error !== 'undefined' && error) { %>
+        <p class="error-message"><%= error %></p>
+    <% } %>
+
+    <form action="/quiz/leaderboard" method="GET" class="leaderboard-filters">
+        <div class="filter-group">
+            <label for="category">Category:</label>
+            <select id="category" name="category" onchange="this.form.submit()">
+                <option value="">All Categories</option>
+                <% if (typeof categories !== 'undefined' && categories.length > 0) { %>
+                    <% categories.forEach(category => { %>
+                        <option value="<%= category.id %>" <%= (typeof selectedCategoryId !== 'undefined' && selectedCategoryId == category.id) ? 'selected' : '' %>>
+                            <%= category.name %>
+                        </option>
+                    <% }); %>
+                <% } %>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="difficulty">Difficulty:</label>
+            <select id="difficulty" name="difficulty" onchange="this.form.submit()">
+                <option value="">Any Difficulty</option>
+                <option value="easy" <%= (typeof selectedDifficulty !== 'undefined' && selectedDifficulty === 'easy') ? 'selected' : '' %>>Easy</option>
+                <option value="medium" <%= (typeof selectedDifficulty !== 'undefined' && selectedDifficulty === 'medium') ? 'selected' : '' %>>Medium</option>
+                <option value="hard" <%= (typeof selectedDifficulty !== 'undefined' && selectedDifficulty === 'hard') ? 'selected' : '' %>>Hard</option>
+            </select>
+        </div>
+        <noscript><button type="submit">Apply Filters</button></noscript>
+    </form>
+
+    <% if (currentUserRank && currentUserScore !== null) { %>
+        <div class="current-user-rank">
+            <h4>Your Rank in this view: #<%= currentUserRank %> (<%= currentUserScore %> points)</h4>
+        </div>
+    <% } %>
+
+    <% if (topUsers && topUsers.length > 0) { %>
+        <table class="table leaderboard-table">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Username</th>
+                    <th>Total Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% topUsers.forEach((user, index) => { %>
+                    <tr class="<%= (currentUserRank && currentUserRank === (index + 1)) ? 'current-user-highlight' : '' %>">
+                        <td><%= index + 1 %></td>
+                        <td><%= user.username %></td>
+                        <td><%= user.totalAccumulatedScore %></td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    <% } else if (!error) { %>
+        <p>The leaderboard is currently empty. Be the first to set a high score!</p>
+    <% } %>
+
+    <div class="leaderboard-actions">
+        <a href="/quiz/setup" class="btn btn-primary">Play New Quiz</a>
+        <% if (username) { %>
+            <a href="/auth/profile" class="btn btn-info">My Profile</a>
+        <% } %>
+    </div>
+</div>
+
+<%- include('partials/footer') %>
