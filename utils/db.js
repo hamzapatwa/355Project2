@@ -2,10 +2,9 @@ import { MongoClient } from 'mongodb';
 
 import dotenv from 'dotenv';
 dotenv.config();
-const dbURL = process.env.MONGODB_URI;
+const dbURL = process.env.ATLAS_URI;
 
-const uri = process.env.MONGODB_URI;
-
+const uri = process.env.ATLAS_URI;
 if (!uri) {
     throw new Error('MONGODB_URI is not defined in your .env file');
 }
