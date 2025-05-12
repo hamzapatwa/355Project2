@@ -1,5 +1,8 @@
 import { MongoClient } from 'mongodb';
 
+import dotenv from 'dotenv';
+dotenv.config();
+const dbURL = process.env.ATLAS_URI; 
 
 const uri = process.env.ATLAS_URI;
 if (!uri) {
@@ -39,13 +42,7 @@ const closeDB = async () => {
     }
 };
 
-export { connectDB, getDB, closeDB };
-=======
-import dotenv from 'dotenv';
-dotenv.config();
-const dbURL = process.env.ATLAS_URI; 
 
-let db;
 export async function connectToDB() {
   console.log(dbURL);
   try {
@@ -72,3 +69,4 @@ export function listCollection() {
   return db.listCollections();
 }
 
+export { connectDB, getDB, closeDB };
