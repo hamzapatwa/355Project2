@@ -1,28 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Application</title>
-    <link rel="stylesheet" href="/css/style.css">
+	<head>
+		<meta charset="UTF-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+				<title>Quiz Application</title>
+				<link rel="stylesheet" href="/css/style.css">
+					<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
-<body class="quiz-body">
-    <header>
-        <div class="container">
-            <h1 class="logo">Quiz App</h1>
-            <nav>
-                <ul>
-                    <% if (typeof username !== 'undefined') { %>
-                        <li><a href="/quiz/setup">New Quiz</a></li>
-                        <li><a href="/auth/profile">My Profile</a></li>
-                        <li><a href="/quiz/leaderboard">Leaderboard</a></li>
-                        <li><a href="/auth/logout">Logout (<%= username %>)</a></li>
-                    <% } else { %>
-                        <li><a href="/auth/login">Login</a></li>
-                        <li><a href="/auth/signup">Sign Up</a></li>
-                    <% } %>
-                </ul>
-            </nav>
-        </div>
-    </header>
-    <main class="container">
+
+	<body class="<%= typeof bodyClass !== 'undefined' ? bodyClass : '' %>">
+
+
+
+
+	<header>
+		<div class="container">
+			<h1 class="logo">Quiz App</h1>
+			<nav>
+				<ul>
+					<% if (typeof username !== 'undefined') { %>
+					<li>
+						<a href="/quiz/setup">New Quiz</a>
+					</li>
+					<li>
+						<a href="/auth/profile">My Profile</a>
+					</li>
+					<li>
+						<a href="/quiz/leaderboard">Leaderboard</a>
+					</li>
+					<li>
+						<a href="/auth/logout">
+							Logout (<%= username %>)
+						</a>
+					</li>
+					<% } else { %>
+					<li>
+						<a href="/auth/login">Login</a>
+					</li>
+					<li>
+						<a href="/auth/signup">Sign Up</a>
+					</li>
+					<% } %>
+				</ul>
+			</nav>
+		</div>
+	</header>
+
+	<main class="container">
