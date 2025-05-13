@@ -132,10 +132,10 @@ export default router;
 // GET user profile page
 router.get('/profile', requireLogin, async (req, res) => {
   try {
-    const db = getDB();
+    const db = getCollection("UserData");
     const userId = req.session.userId;
 
-    const user = await db.collection('users').findOne({ _id: new ObjectId(userId) });
+    const user = await db.findOne({ _id: new ObjectId(userId) });
 
     if (!user) {
       // This should not happen if requireLogin and session are working

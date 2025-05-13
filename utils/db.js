@@ -2,7 +2,6 @@ import { MongoClient } from 'mongodb';
 
 import dotenv from 'dotenv';
 dotenv.config();
-const dbURL = process.env.ATLAS_URI;
 
 const uri = process.env.ATLAS_URI;
 if (!uri) {
@@ -32,13 +31,6 @@ const connectToDB = async () => {
 
 
 
-const closeDB = async () => {
-    if (client) {
-        await client.close();
-        console.log("MongoDB connection closed.");
-    }
-};
-
 
 
 
@@ -48,11 +40,5 @@ export function getCollection(collectionName) {
   }
   return db.collection(collectionName);
 }
-export function listCollection() {
-  if (!db) {
-    throw new Error('Database connection not established. Call connectToDB first.');
-  }
-  return db.listCollections();
-}
 
-export { connectToDB, closeDB };
+export { connectToDB };
