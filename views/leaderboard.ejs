@@ -1,6 +1,6 @@
 <%- include('partials/header', { username: username }) %>
 
-<div class="leaderboard-container">
+<div class="leaderboard-container pixel-box">
     <h2>Leaderboard <% if (selectedCategoryName && selectedCategoryName !== 'All') { %>- <%= selectedCategoryName %><% } %><% if (selectedDifficulty && selectedDifficulty !== 'Any' && selectedDifficulty !== '') { %> (<%= selectedDifficulty.charAt(0).toUpperCase() + selectedDifficulty.slice(1) %>)<% } %></h2>
 
     <% if (typeof error !== 'undefined' && error) { %>
