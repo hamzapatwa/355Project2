@@ -1,43 +1,31 @@
+ <% bodyClass = 'mario-login'; %>
 <%- include('partials/header') %>
 
-<div class="auth-container">
-    <h2>Login</h2>
-    
-    <% if (error) { %>
-        <div class="error-message">
-            <%= error %>
-        </div>
-    <% } %>
-    
-    <form action="/auth/login" method="POST" class="auth-form">
-        <div class="form-group">
-            <label for="username">Username</label>
-            <input 
-                type="text" 
-                id="username" 
-                name="username" 
-                value="<%= typeof usernameP !== 'undefined' ? usernameP : '' %>" 
-                required
-                autofocus
-            >
-        </div>
-        
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input 
-                type="password" 
-                id="password" 
-                name="password" 
-                required
-            >
-        </div>
-        
-        <button type="submit" class="btn btn-primary">Login</button>
-    </form>
-    
-    <div class="auth-links">
-        <p>Don't have an account? <a href="/auth/signup">Sign Up</a></p>
+<div class="auth-container pixel-box">
+  <h2 class="section-title">Login</h2>
+
+ <% if (error) { %>
+  <div class="error-message"><%= error %></div>
+<% } %>
+
+
+  <form class="auth-form" action="/auth/login" method="POST">
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" name="username" id="username" required />
     </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" required />
+    </div>
+
+    <button type="submit" class="btn submit-btn">Login</button>
+  </form>
+
+  <div class="auth-links">
+    <p>Don't have an account? <a href="/auth/signup">Sign Up</a></p>
+  </div>
 </div>
 
 <%- include('partials/footer') %>
