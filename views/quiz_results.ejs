@@ -1,6 +1,6 @@
 <%- include('partials/header', { username: username }) %>
 
-<div class="results-container">
+<div class="results-container pixel-box">
     <h2>Quiz Results</h2>
     
     <div class="score-summary">
@@ -29,7 +29,7 @@
         <h3>Questions Review</h3>
         
         <% answers.forEach((answer, index) => { %>
-            <details class="review-item <%= answer.isCorrect ? 'correct' : 'incorrect' %>" <%= answer.isCorrect ? '' : 'open' %>>
+            <details class="review-item <%= answer.isCorrect ? 'correct' : 'incorrect' %>">
                 <summary>
                     <strong><%= index + 1 %>.</strong> <%= answer.question %>
                     <% if (answer.isCorrect) { %>
@@ -54,9 +54,9 @@
    
     
     <div class="action-buttons">
-        <a href="/quiz/setup" class="btn btn-primary">Take Another Quiz</a>
-        <a href="/quiz/scores" class="btn btn-secondary">View Score History</a>
+        <a href="/quiz/setup" class="btn submit-btn">Take Another Quiz</a>
+        <a href="/quiz/scores" class="btn submit-btn">View Score History</a>
     </div>
 </div>
 
-<%- include('partials/footer') %>
+<%- include('partials/footer') %> 
