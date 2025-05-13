@@ -1,6 +1,6 @@
 <%- include('partials/header', { username: username }) %>
 
-<div class="quiz-setup">
+<div class="pixel-box quiz-setup">
     <h2>Quiz Setup</h2>
 
     <div class="quiz-intro">
@@ -13,7 +13,7 @@
     <form action="/quiz/start" method="POST" class="quiz-config-form">
         <div class="form-group">
             <label for="questionCount">Number of questions:</label>
-            <select id="questionCount" name="questionCount" class="form-control">
+            <select id="questionCount" name="questionCount">
                 <option value="5">5 Questions</option>
                 <option value="10" selected>10 Questions</option>
                 <option value="15">15 Questions</option>
@@ -24,7 +24,7 @@
 
         <div class="form-group">
             <label for="category">Category:</label>
-            <select id="category" name="category" class="form-control">
+            <select id="category" name="category">
                 <option value="">Any Category</option>
                 <% if (typeof categories !== 'undefined' && categories.length > 0) { %>
                     <% categories.forEach(category => { %>
@@ -38,7 +38,7 @@
 
         <div class="form-group">
             <label for="difficulty">Difficulty:</label>
-            <select id="difficulty" name="difficulty" class="form-control">
+            <select id="difficulty" name="difficulty">
                 <option value="">Any Difficulty</option>
                 <option value="easy">Easy</option>
                 <option value="medium">Medium</option>
@@ -48,7 +48,7 @@
 
         <div class="form-group">
             <label for="timerDuration">Time per question (seconds):</label>
-            <select id="timerDuration" name="timerDuration" class="form-control">
+            <select id="timerDuration" name="timerDuration">
                 <option value="10">10</option>
                 <option value="15">15</option>
                 <option value="20">20</option>
@@ -58,7 +58,7 @@
             </select>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-large">Start Quiz</button>
+        <button type="submit" class="submit-btn">Start Quiz</button>
     </form>
 
     <div class="quiz-instructions">
