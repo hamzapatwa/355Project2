@@ -1,7 +1,7 @@
 import express from 'express';
 import { requireLogin } from '../utils/authMiddleware.js';
 import { fetchCategories, fetchQuestions } from '../utils/triviaApi.js';
-import { getDB } from '../utils/db.js';
+import { getCollection } from '../utils/db.js';
 import { ObjectId } from 'mongodb';
 
 const router = express.Router();
@@ -227,7 +227,7 @@ router.get('/results', async (req, res) => {
 
   // Save score to user's profile in MongoDB
   try {
-    const db = getDB();
+    const db = getCollection("QuizData");
     const userId = req.session.userId; // Already a string from auth routes
 
       const scoreRecord = {
@@ -239,22 +239,23 @@ router.get('/results', async (req, res) => {
       difficulty: quizSession.difficulty,
       datePlayed: new Date()
     };
+    db.insertOne(scoreRecord);
+    //NONE OF THIS COMMENTED STUFF WORKS
+    // const updateResult = await db.collection('users').updateOne(
+    //   { _id: new ObjectId(userId) }, // Convert string userId to ObjectId
+    //   {
+    //     $push: { quizHistory: scoreRecord },
+    //     $inc: { totalAccumulatedScore: quizSession.score }
+    //   }
+    // );
 
-    const updateResult = await db.collection('users').updateOne(
-      { _id: new ObjectId(userId) }, // Convert string userId to ObjectId
-      {
-        $push: { quizHistory: scoreRecord },
-        $inc: { totalAccumulatedScore: quizSession.score }
-      }
-    );
-
-    if (updateResult.modifiedCount === 0 && updateResult.matchedCount === 1) {
-      // User found but not modified - could be an issue or just no change if score was 0 and no history added
-      console.warn(`Quiz result for user ${userId} might not have been saved as expected.`);
-    } else if (updateResult.matchedCount === 0) {
-      console.error(`User with ID ${userId} not found. Could not save score.`);
-      // Potentially redirect to logout or show a specific error
-    }
+    // if (updateResult.modifiedCount === 0 && updateResult.matchedCount === 1) {
+    //   // User found but not modified - could be an issue or just no change if score was 0 and no history added
+    //   console.warn(`Quiz result for user ${userId} might not have been saved as expected.`);
+    // } else if (updateResult.matchedCount === 0) {
+    //   console.error(`User with ID ${userId} not found. Could not save score.`);
+    //   // Potentially redirect to logout or show a specific error
+    // }
 
     // Render results page
     res.render('quiz_results', {
@@ -283,7 +284,7 @@ router.get('/results', async (req, res) => {
 // GET leaderboard page with filtering
 router.get('/leaderboard', async (req, res) => {
   try {
-    const db = getDB();
+    const db = getCollection('QuizData');
     const { category: filterCategoryId, difficulty: filterDifficulty } = req.query;
 
     const categories = await fetchCategories(); // For filter dropdown
@@ -332,7 +333,7 @@ router.get('/leaderboard', async (req, res) => {
         }
     });
 
-    const topUsers = await db.collection('users').aggregate(pipeline).toArray();
+    const topUsers = await db.aggregate(pipeline).toArray();
 
     // Current user rank calculation needs to be adapted if filters are active
     // For simplicity, current user rank will be based on the filtered leaderboard if they appear in it.

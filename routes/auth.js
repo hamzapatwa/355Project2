@@ -1,6 +1,6 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
-import { getDB } from '../utils/db.js';
+import { getCollection } from '../utils/db.js';
 import { ObjectId } from 'mongodb'; // For fetching user by _id
 import { requireLogin } from '../utils/authMiddleware.js'; // For protecting profile route
 
@@ -27,21 +27,19 @@ router.post('/login', async (req, res) => {
   }
 
   try {
-    const db = getDB();
-    const user = await db.collection('users').findOne({ username });
-
+    const users = await getCollection('UserData');
+    const user = await users.findOne({"username":username});
+    
     if (user && await bcrypt.compare(password, user.password)) {
-      // Store user ID in session
       req.session.userId = user._id.toString(); // Convert ObjectId to string
       req.session.username = user.username;
-
       // Redirect to quiz setup
       res.redirect('/quiz/setup');
     } else {
       console.log(user);
       res.render('login', {
         error: 'Invalid username or password',
-        username // Keep the entered username for convenience
+        Username:username // Keep the entered username for convenience
       });
     }
   } catch (error) {
@@ -81,8 +79,8 @@ router.post('/signup', async (req, res) => {
   }
 
   try {
-    const db = getDB();
-    const existingUser = await db.collection('users').findOne({ username });
+    const db = getCollection("UserData");
+    const existingUser = await db.findOne({ username });
 
     if (existingUser) {
       return res.render('signup', {
@@ -101,7 +99,7 @@ router.post('/signup', async (req, res) => {
       createdAt: new Date() // MongoDB will store as ISODate
     };
 
-    const result = await db.collection('users').insertOne(newUser);
+    const result = await db.insertOne(newUser);
 
     // Log the user in
     req.session.userId = result.insertedId.toString(); // Get the new user's _id

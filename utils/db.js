@@ -21,7 +21,7 @@ const connectToDB = async () => {
         console.log("Attempting to connect to MongoDB..."); // Added log
         client = new MongoClient(uri);
         await client.connect();
-        db = client.db();
+        db = client.db("QuizApp");
         console.log("Successfully connected to MongoDB."); // Existing log
         return db;
     } catch (err) {
@@ -30,12 +30,7 @@ const connectToDB = async () => {
     }
 };
 
-const getDB = () => {
-    if (!db) {
-        throw new Error("Database not initialized. Call connectToDB first.");
-    }
-    return db;
-};
+
 
 const closeDB = async () => {
     if (client) {
@@ -60,4 +55,4 @@ export function listCollection() {
   return db.listCollections();
 }
 
-export { connectToDB, getDB, closeDB };
+export { connectToDB, closeDB };
