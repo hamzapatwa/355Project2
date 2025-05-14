@@ -155,10 +155,10 @@ input[type="email"],
 select,
 textarea {
   width: 100%;
-  padding: 0.8rem;
+  padding: 1.5rem;
   border: 1px solid var(--medium-gray);
   border-radius: var(--border-radius);
-  font-size: 1rem;
+  font-size: 1.2rem;
   transition: var(--transition);
 }
 
@@ -256,6 +256,29 @@ textarea:focus {
   z-index: 1;
 }
 
+/* Add these new styles for quiz setup dropdowns */
+.quiz-setup select {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.9rem;
+  padding: 1.5rem;
+  width: 100%;
+  border: 4px solid #000;
+  border-radius: 0;
+  background-color: #ffcc00;
+  box-shadow: 4px 4px 0 #000;
+  cursor: pointer;
+}
+
+.quiz-setup select:hover {
+  background-color: #ffa500;
+}
+
+.quiz-setup label {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.65rem;
+  margin-bottom: 0.5rem;
+  display: block;
+}
 
 .quiz-intro {
   margin-bottom: 2rem;
@@ -492,7 +515,7 @@ input[type="radio"]:checked + .option-label {
   flex-direction: column;
   gap: 0.5rem;
   font-size: 0.7rem;
-  color: #333; 
+  color: #333;
 }
 
 .correct-icon, .timeout-icon, .incorrect-icon {
@@ -641,45 +664,45 @@ input[type="radio"]:checked + .option-label {
   html {
     font-size: 14px;
   }
-  
+
   header .container {
     flex-direction: column;
   }
-  
+
   nav {
     margin-top: 1rem;
   }
-  
+
   nav ul {
     justify-content: center;
   }
-  
+
   nav li:first-child {
     margin-left: 0;
   }
-  
+
   .quiz-header {
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .timer-container {
     margin-top: 1rem;
   }
-  
+
   .review-item {
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .review-result {
     margin-top: 0.5rem;
   }
-  
+
   .action-buttons {
     flex-direction: column;
   }
-  
+
   .action-buttons .btn {
     width: 100%;
     margin-bottom: 0.5rem;
@@ -690,7 +713,7 @@ input[type="radio"]:checked + .option-label {
   .scores-summary {
     flex-direction: column;
   }
-  
+
   .summary-item {
     width: 100%;
     margin-bottom: 1rem;
@@ -713,9 +736,9 @@ input[type="radio"]:checked + .option-label {
   animation: blink 1s infinite;
 }
 body.quiz-body {
-  background: url('/mario-background.png') repeat-x;
+  background: url('/mario-background.webp') repeat-x;
 
-  background-size: contain;
+  background-size: cover;
   animation: scrollBackground 60s linear infinite;
   color: var(--light-text);
   margin: 0;
@@ -736,8 +759,8 @@ body.quiz-body {
   }
 }
 body.mario-login {
-  background: url('/mario-background.png') repeat-x;
-  background-size: contain;
+  background: url('/mario-background.webp') repeat-x;
+  background-size: cover;
   animation: scrollBackground 60s linear infinite;
   min-height: 100vh;
   display: flex;
@@ -873,8 +896,8 @@ input[type="radio"] {
 
 .filter-group select {
   font-family: 'Press Start 2P', cursive;
-  font-size: 0.7rem;
-  padding: 0.8rem;
+  font-size: 0.9rem;
+  padding: 1.5rem;
   width: 100%;
   border: 4px solid #000;
   border-radius: 0;
