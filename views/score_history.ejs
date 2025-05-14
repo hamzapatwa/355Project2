@@ -1,9 +1,9 @@
-<% bodyClass = 'mario-login'; %>
+<% bodyClass = 'login'; %>
 <%- include('partials/header', { username: username }) %>
 
 <div class="scores-container">
     <h2>Score History</h2>
-    
+
     <% if (scores && scores.length > 0) { %>
         <div class="scores-table-container">
             <table class="scores-table">
@@ -31,7 +31,7 @@
                 </tbody>
             </table>
         </div>
-        
+
         <div class="scores-summary">
             <div class="summary-item">
                 <span class="summary-label">Total Quizzes:</span>
@@ -40,7 +40,7 @@
             <div class="summary-item">
                 <span class="summary-label">Average Score:</span>
                 <span class="summary-value">
-                    <% 
+                    <%
                         const totalPercentage = scores.reduce((sum, score) => {
                             return sum + Math.round((score.score / score.totalQuestions) * 100);
                         }, 0);
@@ -52,7 +52,7 @@
             <div class="summary-item">
                 <span class="summary-label">Best Score:</span>
                 <span class="summary-value">
-                    <% 
+                    <%
                         const bestScore = scores.reduce((best, score) => {
                             const percentage = Math.round((score.score / score.totalQuestions) * 100);
                             return percentage > best ? percentage : best;
@@ -67,7 +67,7 @@
             <p>You haven't taken any quizzes yet!</p>
         </div>
     <% } %>
-    
+
     <div class="action-buttons">
         <a href="/quiz/setup" class="btn btn-primary">Take a Quiz</a>
     </div>

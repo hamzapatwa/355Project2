@@ -7,7 +7,7 @@
 
     <div class="shareable-score-card">
         <div class="share-header">
-            <h2>Mario Quiz Score</h2>
+            <h2>QuizBlox Score</h2>
         </div>
         <div class="share-stats">
             <div class="share-score"><%= score %>/<%= totalQuestions %></div>
@@ -18,7 +18,7 @@
             <p>Difficulty: <%= difficulty %></p>
         </div>
         <div class="share-footer">
-            Play the Mario Quiz at marioquiz.com
+            Play QuizBlox at quizblox.com
         </div>
     </div>
 
@@ -50,14 +50,18 @@
         <% answers.forEach((answer, index) => { %>
             <details class="review-item <%= answer.isCorrect ? 'correct' : 'incorrect' %>">
                 <summary>
-                    <strong><%= index + 1 %>.</strong> <%= answer.question %>
-                    <% if (answer.isCorrect) { %>
-                        ✅ Correct
-                    <% } else if (answer.selectedAnswer === '') { %>
-                        ⏱️ Time's Up
-                    <% } else { %>
-                        ❌ Incorrect
-                    <% } %>
+                    <div class="question-text">
+                        <strong><%= index + 1 %>.</strong> <%= answer.question %>
+                    </div>
+                    <div class="status-label">
+                        <% if (answer.isCorrect) { %>
+                            ✅ Correct
+                        <% } else if (answer.selectedAnswer === '') { %>
+                            ⏱️ Time's Up
+                        <% } else { %>
+                            ❌ Incorrect
+                        <% } %>
+                    </div>
                 </summary>
                 <div class="review-result-body">
                     <% if (answer.selectedAnswer !== '') { %>
@@ -73,7 +77,7 @@
 
 
     <div class="action-buttons">
-        <button id="shareScore" class="btn btn-primary">
+        <button id="shareScore" class="btn submit-btn">
             Share Score
         </button>
         <a href="/quiz/setup" class="btn submit-btn">Take Another Quiz</a>

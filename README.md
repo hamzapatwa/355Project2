@@ -1,4 +1,4 @@
-# Quiz Application
+# QuizBlox
 
 A full-stack quiz application built with Express.js and EJS templating engine.
 

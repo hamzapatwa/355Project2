@@ -27,7 +27,7 @@ function createShareableScoreCard(score, totalQuestions, percentage, category, d
                 <p style="margin: 5px 0; font-size: 14px;">Difficulty: ${difficulty || 'Mixed'}</p>
             </div>
             <div style="font-size: 14px; color: #666; font-family: 'Press Start 2P', 'Courier New', monospace;">
-                <p>Play at Quiz App!</p>
+                <p>Play QuizBlox!</p>
             </div>
         </div>
     `;
@@ -76,20 +76,20 @@ async function shareScore(score, totalQuestions, percentage, category, difficult
 
         // Create a blob from the data URL
         const blob = await (await fetch(dataUrl)).blob();
-        const file = new File([blob], 'mario-quiz-score.png', { type: 'image/png' });
+        const file = new File([blob], 'quizblox-score.png', { type: 'image/png' });
 
         // Share the image
         if (navigator.share) {
             await navigator.share({
-                title: 'My Mario Quiz Score',
-                text: `I scored ${score}/${totalQuestions} (${percentage}%) on the Mario Quiz!`,
+                title: 'My QuizBlox Score',
+                text: `I scored ${score}/${totalQuestions} (${percentage}%) on QuizBlox!`,
                 files: [file]
             });
         } else {
             // Fallback for browsers that don't support the Web Share API
             const link = document.createElement('a');
             link.href = dataUrl;
-            link.download = 'mario-quiz-score.png';
+            link.download = 'quizblox-score.png';
             link.click();
         }
     } catch (error) {
