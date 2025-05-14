@@ -240,7 +240,7 @@ router.get('/results', async (req, res) => {
       datePlayed: new Date()
     };
     // db.insertOne(scoreRecord);
-  
+
     const userId = req.session.userId; // Already a string from auth routes
     const newDB = getCollection("UserData");
     const updateResult = await newDB.updateOne(
@@ -265,7 +265,9 @@ router.get('/results', async (req, res) => {
       score: quizSession.score,
       totalQuestions: quizSession.totalQuestions,
       percentage: quizSession.totalQuestions > 0 ? Math.round((quizSession.score / quizSession.totalQuestions) * 100) : 0,
-      answers: quizSession.answers
+      answers: quizSession.answers,
+      category: quizSession.categoryName,
+      difficulty: quizSession.difficulty
     });
 
     // Clear quiz session data after showing results

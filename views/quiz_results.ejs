@@ -1,8 +1,27 @@
 <%- include('partials/header', { username: username }) %>
 
+<link rel="stylesheet" href="/css/share-score.css">
+
 <div class="results-container pixel-box">
     <h2>Quiz Results</h2>
-    
+
+    <div class="shareable-score-card">
+        <div class="share-header">
+            <h2>Mario Quiz Score</h2>
+        </div>
+        <div class="share-stats">
+            <div class="share-score"><%= score %>/<%= totalQuestions %></div>
+            <div class="share-percentage"><%= percentage %>%</div>
+        </div>
+        <div class="share-details">
+            <p>Category: <%= category %></p>
+            <p>Difficulty: <%= difficulty %></p>
+        </div>
+        <div class="share-footer">
+            Play the Mario Quiz at marioquiz.com
+        </div>
+    </div>
+
     <div class="score-summary">
         <div class="score-card">
             <h3>Final Score</h3>
@@ -11,7 +30,7 @@
                 <%= percentage %>%
             </div>
         </div>
-        
+
         <div class="performance-message">
             <% if (percentage >= 80) { %>
                 <p>Outstanding! You did an excellent job!</p>
@@ -24,10 +43,10 @@
             <% } %>
         </div>
     </div>
-    
+
      <div class="answer-review">
         <h3>Questions Review</h3>
-        
+
         <% answers.forEach((answer, index) => { %>
             <details class="review-item <%= answer.isCorrect ? 'correct' : 'incorrect' %>">
                 <summary>
@@ -51,12 +70,18 @@
             </details>
         <% }) %>
     </div>
-   
-    
+
+
     <div class="action-buttons">
+        <button id="shareScore" class="btn btn-primary">
+            Share Score
+        </button>
         <a href="/quiz/setup" class="btn submit-btn">Take Another Quiz</a>
         <a href="/auth/profile" class="btn submit-btn">View Score History</a>
     </div>
 </div>
 
-<%- include('partials/footer') %> 
+<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.min.js" defer></script>
+<script src="/js/share-score.js" defer></script>
+
+<%- include('partials/footer') %>

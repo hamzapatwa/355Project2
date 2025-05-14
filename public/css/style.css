@@ -737,9 +737,8 @@ input[type="radio"]:checked + .option-label {
 }
 body.quiz-body {
   background: url('/mario-background.webp') repeat-x;
-
   background-size: cover;
-  animation: scrollBackground 60s linear infinite;
+  animation: scrollBackground 30s linear infinite;
   color: var(--light-text);
   margin: 0;
   height: 100vh;
@@ -761,7 +760,7 @@ body.quiz-body {
 body.mario-login {
   background: url('/mario-background.webp') repeat-x;
   background-size: cover;
-  animation: scrollBackground 60s linear infinite;
+  animation: scrollBackground 30s linear infinite;
   min-height: 100vh;
   display: flex;
   justify-content: center;
