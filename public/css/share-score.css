@@ -1,0 +1,77 @@
+.shareable-score-card {
+    width: 600px;
+    padding: 30px;
+    background: #ffffff;
+    border: 4px solid #000;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Press Start 2P', system-ui, -apple-system, sans-serif;
+    color: #000;
+    position: fixed;
+    top: -9999px;
+    left: -9999px;
+}
+
+.share-header {
+    text-align: center;
+}
+
+.share-header h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #000;
+}
+
+.share-stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.share-score {
+    font-size: 36px;
+    font-weight: bold;
+    color: #000;
+}
+
+.share-percentage {
+    font-size: 36px;
+    font-weight: bold;
+    color: #000;
+}
+
+.share-details {
+    margin-bottom: 20px;
+}
+
+.share-details p {
+    font-size: 14px;
+    margin: 5px 0;
+    color: #000;
+}
+
+.share-footer {
+    font-size: 12px;
+    color: #666;
+    margin-top: 20px;
+}
+
+#share-score {
+    font-family: 'Press Start 2P', cursive;
+    background-color: #ffcc00;
+    color: black;
+    border: 4px solid #000;
+    border-radius: 0;
+    box-shadow: 4px 4px 0px #000;
+    padding: 1rem;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+}
+
+#share-score:hover {
+    background-color: #ffa500;
+    box-shadow: 2px 2px 0px #000;
+}
