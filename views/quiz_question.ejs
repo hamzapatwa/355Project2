@@ -18,17 +18,17 @@
       <input type="hidden" name="showFeedback" id="showFeedback" value="true">
 
       <div class="options">
-        <% 
+        <%
           // Option keys correspond to the JSON keys: A, B, C, D.
-          const optionKeys = ['A', 'B', 'C', 'D']; 
+          const optionKeys = ['A', 'B', 'C', 'D'];
         %>
         <% optionKeys.forEach((key, index) => { %>
           <div class="option-container">
-            <input 
-              type="radio" 
-              name="answer" 
-              id="option<%= index %>" 
-              value="<%= key %>" 
+            <input
+              type="radio"
+              name="answer"
+              id="option<%= index %>"
+              value="<%= key %>"
               <%= selectedAnswer === key ? "checked" : "" %>
             />
             <label class="option-label" for="option<%= index %>">
@@ -38,19 +38,22 @@
         <% }); %>
       </div>
 
-      <% if (!feedback) { %>
-        <button type="submit" class="btn btn-primary submit-btn">Submit Answer</button>
-      <% } else { %>
-        <div class="feedback-message">
-          <% if (feedback.isCorrect) { %>
-            <p class="correct-message">Correct! Great job!</p>
-          <% } else if (feedback.isTimeUp) { %>
-            <p class="timeout-message">Time's up! The correct answer was:  (<%= question[feedback.correctAnswer] %>)</p>
-          <% } else { %>
-            <p class="incorrect-message">Incorrect. The correct answer was:  (<%= question[feedback.correctAnswer] %>)</p>
-          <% } %>
-        </div>
-      <% } %>
+      <div class="button-container">
+        <% if (!feedback) { %>
+          <button type="submit" class="btn btn-primary submit-btn">Submit Answer</button>
+        <% } else { %>
+          <a href="/quiz/question" class="btn btn-primary submit-btn">Next Question</a>
+          <div class="feedback-message">
+            <% if (feedback.isCorrect) { %>
+              <p class="correct-message">Correct! Great job!</p>
+            <% } else if (feedback.isTimeUp) { %>
+              <p class="timeout-message">Time's up! The correct answer was: (<%= question[feedback.correctAnswer] %>)</p>
+            <% } else { %>
+              <p class="incorrect-message">Incorrect. The correct answer was: (<%= question[feedback.correctAnswer] %>)</p>
+            <% } %>
+          </div>
+        <% } %>
+      </div>
     </form>
   </div>
 </div>
@@ -59,7 +62,7 @@
 document.addEventListener('DOMContentLoaded', function() {
   const timerDuration = parseInt('<%= timerDuration %>', 10);
   const feedbackExists = '<%= feedback ? "true" : "false" %>' === 'true';
-  
+
   let timeLeft = timerDuration;
   const timerElement = document.getElementById('timer');
   const timeUpField = document.getElementById('timeUp');
@@ -67,22 +70,10 @@ document.addEventListener('DOMContentLoaded', function() {
   const hasOptions = document.querySelectorAll('input[name="answer"]');
   const submitBtn = document.querySelector('.submit-btn');
   const timerContainer = document.querySelector('.timer-container');  // Select the timer container
-  
+
   // Auto-advance when feedback is displayed.
   if (feedbackExists) {
     timerContainer.style.display = 'none';
-    const nextButton = document.createElement('a');
-    nextButton.textContent = 'Continue to Next Question';
-    nextButton.href = '/quiz/question';
-    nextButton.className = 'btn submit-btn';
-    nextButton.style.display = 'block';
-    nextButton.style.width = '100%';
-    nextButton.style.marginTop = '1rem';
-    answerForm.appendChild(nextButton);
-
-    setTimeout(() => {
-      window.location.href = '/quiz/question';
-    }, 3000);
     return;
   }
 
@@ -90,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const timerInterval = setInterval(function() {
     timeLeft--;
     timerElement.textContent = timeLeft;
-    
+
     // Add blinking effect if timeLeft is 5 seconds or less
     if (timeLeft <= 5) {
       timerContainer.classList.add('blinking');
@@ -102,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
       answerForm.submit();
     }
   }, 1000);
-  
+
   // Enable submit button when an option is selected.
   hasOptions.forEach(option => {
     option.addEventListener('change', function() {
@@ -111,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   });
-  
+
   // Initially disable submit button if no option is pre-selected.
   if (submitBtn) {
     submitBtn.disabled = !Array.from(hasOptions).some(option => option.checked);

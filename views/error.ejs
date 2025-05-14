@@ -1,4 +1,4 @@
-<% bodyClass = 'mario-login'; %>
+<% bodyClass = 'login'; %>
 
 <%- include('partials/header') %>
 
@@ -11,22 +11,22 @@
                 Error Occurred
             <% } %>
         </h2>
-        
+
         <div class="error-message">
             <p><%= message %></p>
-            
+
             <% if (process.env.NODE_ENV === 'development' && error.stack) { %>
                 <div class="error-details">
                     <pre><%= error.stack %></pre>
                 </div>
             <% } %>
         </div>
-        
+
         <div class="error-actions">
             <% if (error.status === 404) { %>
                 <p>The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.</p>
             <% } %>
-            
+
             <a href="/" class="btn btn-primary">Go to Home Page</a>
         </div>
     </div>

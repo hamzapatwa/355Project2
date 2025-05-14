@@ -69,9 +69,13 @@
     text-transform: uppercase;
     cursor: pointer;
     transition: all 0.1s ease-in-out;
+    text-decoration: none;
+    display: inline-block;
+    margin: 0;
 }
 
 #share-score:hover {
     background-color: #ffa500;
     box-shadow: 2px 2px 0px #000;
+    transform: translate(2px, 2px);
 }

@@ -22,6 +22,34 @@
   --transition: all 0.3s ease;
 }
 
+/* Prevent zooming on form submission */
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Prevent content overflow from causing layout shifts */
+.quiz-question-container {
+  overflow: hidden;
+}
+
+/* Prevent zooming on form submission */
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+}
+
+.quiz-question-container {
+  overflow: hidden;
+}
+
 html {
   font-size: 16px;
 }
@@ -31,6 +59,9 @@ body {
   line-height: 1.6;
   color: var(--text-color);
   background-color: var(--light-gray);
+  margin: 0;
+  padding: 0;
+  padding-top: 4.5rem; /* Increased padding to move content down */
 }
 
 .container {
@@ -43,6 +74,7 @@ body {
 main.container {
   padding: 2rem 1rem;
   min-height: calc(100vh - 150px);
+  margin-top: 1rem; /* Added margin to create more space */
 }
 
 /* Typography */
@@ -80,15 +112,18 @@ a:hover {
 
 /* Header & Navigation */
 header {
-  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent for Mario bg */
+  background-color: rgba(0, 0, 0, 0.5);
   color: white;
   font-family: 'Press Start 2P', cursive;
-  padding: 1rem;
+  padding: 0.5rem 1rem;
   border-bottom: 4px solid #000;
   text-shadow: 1px 1px 0 #000;
   z-index: 1000;
   width: 100%;
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 0;
 }
 
 header .container {
@@ -96,23 +131,45 @@ header .container {
   justify-content: space-between;
   align-items: center;
   image-rendering: pixelated;
+  height: 2rem;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo-img {
+  height: 40px;
+  width: auto;
+  image-rendering: pixelated;
 }
 
 .logo {
-  font-size: 1.2rem;
-  font-weight: bold;
+  margin: 0;
+  font-size: 2rem;
+  font-family: 'Press Start 2P', cursive;
+  color: white;
 }
 
 nav ul {
   display: flex;
   list-style: none;
   gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+  height: 2rem;
+  align-items: center;
 }
 
 nav a {
   color: white;
   font-size: 0.75rem;
   text-decoration: none;
+  line-height: 2rem;
+  padding: 0;
+  margin: 0;
 }
 
 nav a:hover {
@@ -398,11 +455,27 @@ input[type="radio"]:checked + .option-label {
   font-size: 1.2rem;
 }
 
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+.submit-btn {
+  display: block;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
 .feedback-message {
   text-align: center;
   font-size: 1.2rem;
   padding: 1rem;
   border-radius: var(--border-radius);
+  width: 100%;
+  margin-top: 0.5rem;
 }
 
 .correct-message {
@@ -411,12 +484,6 @@ input[type="radio"]:checked + .option-label {
 
 .incorrect-message, .timeout-message {
   color: var(--error-color);
-}
-
-.submit-btn {
-  display: block;
-  width: 100%;
-  margin-top: 1.5rem;
 }
 
 /* Quiz Results Page */
@@ -707,6 +774,14 @@ input[type="radio"]:checked + .option-label {
     width: 100%;
     margin-bottom: 0.5rem;
   }
+
+  .logo-img {
+    height: 30px;
+  }
+
+  .logo {
+    font-size: 1.5rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -735,17 +810,26 @@ input[type="radio"]:checked + .option-label {
 .blinking {
   animation: blink 1s infinite;
 }
-body.quiz-body {
-  background: url('/mario-background.webp') repeat-x;
-  background-size: cover;
-  animation: scrollBackground 30s linear infinite;
-  color: var(--light-text);
+
+/* Remove duplicate body styles and consolidate animation */
+body.quiz-body,
+body.login {
+  background: none;
+  min-height: 100vh;
+  width: 100vw;
   margin: 0;
-  height: 100vh;
-  font-family: 'Segoe UI', sans-serif;
+  padding: 0;
+  font-family: 'Press Start 2P', cursive;
+  image-rendering: pixelated;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow-x: hidden;
+  position: relative;
+}
+
+body.login {
+  flex-direction: column;
 }
 
 /* Animation for horizontal scroll */
@@ -757,17 +841,43 @@ body.quiz-body {
     background-position: -3000px 0;
   }
 }
-body.mario-login {
-  background: url('/mario-background.webp') repeat-x;
+
+/* Background animation element */
+.background-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('/mc-background.webp') repeat-x;
   background-size: cover;
+  background-position: 0 0;
+  background-attachment: fixed;
   animation: scrollBackground 30s linear infinite;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  overflow-x: hidden;
+  z-index: -1;
+  pointer-events: none;
 }
+
+/* Overlay for better text readability */
+.background-animation::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+}
+
+/* Remove duplicate styles */
+body.quiz-body::before,
+body.login::before,
+body.quiz-body::after,
+body.login::after {
+  display: none;
+}
+
 .pixel-box {
   font-family: 'Press Start 2P', cursive;
   border: 4px solid #000;
@@ -776,33 +886,6 @@ body.mario-login {
   padding: 2rem;
   background-color: #fff;
 }
-
-body.mario-login::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.2);
-  z-index: 0;
-  pointer-events: none;
-}
-
-body.mario-login::after {
- content: "";
-  position: fixed;       /* stays in place */
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 50vh;          /* bottom half of the screen */
-  background: rgba(0, 0, 0, 0.3); /* adjust opacity as needed */
-  z-index: 0;
-  pointer-events: none;  /* allow clicks to pass through */
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.3), transparent);
-}
-
-
 
 .auth-container {
   position: relative;
@@ -813,9 +896,8 @@ body.mario-login::after {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
-
 body.quiz-body,
-body.mario-login {
+body.login {
   font-family: 'Press Start 2P', cursive;
   image-rendering: pixelated;
 }
@@ -845,6 +927,7 @@ body.quiz-body::before {
   transition: all 0.1s ease-in-out;
   text-transform: uppercase;
   margin-bottom: 2rem;
+  touch-action: manipulation;
 }
 
 .submit-btn:hover,
@@ -1029,4 +1112,31 @@ input[type="radio"] {
 .profile-actions .btn:hover {
   background-color: #ffa500;
   box-shadow: 2px 2px 0px #000;
+}
+
+.review-item summary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.review-item .question-text {
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.review-item .status-label {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+/* Adjust specific containers to ensure proper spacing */
+.quiz-setup,
+.quiz-question-container,
+.results-container,
+.scores-container,
+.leaderboard-container,
+.profile-container,
+.auth-container {
+  margin-top: 1rem;
 }
