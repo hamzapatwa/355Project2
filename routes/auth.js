@@ -29,10 +29,11 @@ router.post('/login', async (req, res) => {
   try {
     const users = await getCollection('UserData');
     const user = await users.findOne({"username":username});
-    
+
     if (user && await bcrypt.compare(password, user.password)) {
       req.session.userId = user._id.toString(); // Convert ObjectId to string
       req.session.username = user.username;
+      req.session.profilePic = user.profilePic;
       // Redirect to quiz setup
       res.redirect('/quiz/setup');
     } else {
@@ -96,7 +97,8 @@ router.post('/signup', async (req, res) => {
       password: hashedPassword,
       totalAccumulatedScore: 0,
       quizHistory: [],
-      createdAt: new Date() // MongoDB will store as ISODate
+      createdAt: new Date(), // MongoDB will store as ISODate
+      profilePic: `https://minotar.net/bust/${username}/100.png`
     };
 
     const result = await db.insertOne(newUser);
@@ -104,6 +106,7 @@ router.post('/signup', async (req, res) => {
     // Log the user in
     req.session.userId = result.insertedId.toString(); // Get the new user's _id
     req.session.username = newUser.username;
+    req.session.profilePic = newUser.profilePic; // Add profile picture to session
 
     // Redirect to quiz setup
     res.redirect('/quiz/setup');
@@ -147,6 +150,7 @@ router.get('/profile', requireLogin, async (req, res) => {
     const sortedQuizHistory = user.quizHistory ? user.quizHistory.sort((a, b) => new Date(b.datePlayed) - new Date(a.datePlayed)) : [];
 
     res.render('profile', {
+      profilePic: user.profilePic,
       username: user.username,
       email: user.email,
       totalAccumulatedScore: user.totalAccumulatedScore || 0,
@@ -160,6 +164,43 @@ router.get('/profile', requireLogin, async (req, res) => {
         username: req.session.username,
         message: 'Could not load your profile. Please try again later.',
         error
+    });
+  }
+});
+
+// POST update profile picture
+router.post('/profile/update-pic', requireLogin, async (req, res) => {
+  try {
+    const { newPicName } = req.body;
+
+    if (!newPicName) {
+      return res.status(400).render('profile', {
+        profilePic: req.session.profilePic,
+        username: req.session.username,
+        error: 'Please provide a name for the new profile picture'
+      });
+    }
+
+    const db = getCollection("UserData");
+    const userId = req.session.userId;
+
+    // Update the profile picture URL in the database
+    await db.updateOne(
+      { _id: new ObjectId(userId) },
+      { $set: { profilePic: `https://minotar.net/bust/${newPicName}/100.png` } }
+    );
+
+    // Update the session
+    req.session.profilePic = `https://minotar.net/bust/${newPicName}/100.png`;
+
+    // Redirect back to profile page
+    res.redirect('/auth/profile');
+  } catch (error) {
+    console.error('Error updating profile picture:', error);
+    res.status(500).render('profile', {
+      profilePic: req.session.profilePic,
+      username: req.session.username,
+      error: 'Failed to update profile picture. Please try again.'
     });
   }
 });

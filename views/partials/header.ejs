@@ -14,8 +14,10 @@
 	<header>
 		<div class="container">
 			<div class="logo-container">
-				<h1 class="logo">QuizBlox</h1>
-				<img src="/images/quizblox-logo.webp" alt="QuizBlox Logo" class="logo-img">
+				<a href="/quiz/setup" class="logo-link">
+					<h1 class="logo">QuizBlox</h1>
+					<img src="/images/quizblox-logo.webp" alt="QuizBlox Logo" class="logo-img">
+				</a>
 			</div>
 			<nav>
 				<ul>
@@ -24,16 +26,23 @@
 						<a href="/quiz/setup">New Quiz</a>
 					</li>
 					<li>
-						<a href="/auth/profile">My Profile</a>
-					</li>
-					<li>
 						<a href="/quiz/leaderboard">Leaderboard</a>
 					</li>
-					<li>
-						<a href="/auth/logout">
-							Logout (<%= username %>)
-						</a>
-					</li>
+
+              		<div class="dropdown-container">
+                	<details class="dropdown right">
+						<summary class="avatar">
+							<img src="<%= typeof profilePic !== 'undefined' ? profilePic : 'https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg' %>" alt="Avatar" class="avatar-img" />
+						</summary>
+						<ul class="dropdown-menu">
+							<li><img src="<%= typeof profilePic !== 'undefined' ? profilePic : 'https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg' %>" alt="Avatar" class="avatar-img" /></li>
+							<li><span class="block bold">Hello, <%= username %>!</span></li>
+							<li><a href="/auth/profile">Profile</a></li>
+							<hr>
+							<li><a href="/auth/logout">Logout</a></li>
+						</ul>
+                	</details>
+              </div>
 					<% } else { %>
 					<li>
 						<a href="/auth/login">Login</a>
