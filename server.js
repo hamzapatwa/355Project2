@@ -53,6 +53,7 @@ app.use('/quiz', quizRoutes);
 app.use((req, res, next) => {
     res.status(404).render('error', {
         username: req.session && req.session.username ? req.session.username : undefined,
+        profilePic: req.session && req.session.profilePic ? req.session.profilePic : "https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg",
         message: 'Page not found',
         error: { status: 404 }
     });
@@ -62,6 +63,7 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
     res.status(err.status || 500).render('error', {
         username: req.session && req.session.username ? req.session.username : undefined,
+        profilePic: req.session && req.session.profilePic ? req.session.profilePic : "https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg",
         message: err.message,
         error: process.env.NODE_ENV === 'development' ? err : {}
     });

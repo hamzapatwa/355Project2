@@ -9,12 +9,36 @@
     <% } %>
 
     <div class="profile-details">
-        <p><strong>Username:</strong> <%= username %></p>
-        <% if (typeof email !== 'undefined' && email) { %>
-            <p><strong>Email:</strong> <%= email %></p>
-        <% } %>
-        <p><strong>Total Accumulated Score:</strong> <%= totalAccumulatedScore %></p>
-        <p><strong>Member Since:</strong> <%= new Date(memberSince).toLocaleDateString() %></p>
+        <div class="profile-picture-section">
+            <img src="<%= profilePic %>" alt="Profile Picture" class="profile-picture" />
+            <form class="pfp-form" action="/auth/profile/update-pic" method="POST">
+                <label for="newPicName">Generate New Profile Picture</label>
+                <input type="text" name="newPicName" id="newPicName" placeholder="Enter name" required />
+                <button type="submit" class="btn submit-btn">Generate New Picture</button>
+            </form>
+        </div>
+        <table class="table quiz-history-table">
+            <tbody>
+                <tr>
+                    <td><strong>Username</strong></td>
+                    <td><%= username %></td>
+                </tr>
+                <% if (typeof email !== 'undefined' && email) { %>
+                    <tr>
+                        <td><strong>Email</strong></td>
+                        <td><%= email %></td>
+                    </tr>
+                <% } %>
+                <tr>
+                    <td><strong>Total Score</strong></td>
+                    <td><%= totalAccumulatedScore %></td>
+                </tr>
+                <tr>
+                    <td><strong>Member Since</strong></td>
+                    <td><%= new Date(memberSince).toLocaleDateString() %></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <h3>Quiz History</h3>
@@ -44,7 +68,9 @@
             </tbody>
         </table>
     <% } else { %>
-        <p>You haven't played any quizzes yet. <a href="/quiz/setup">Start a new quiz!</a></p>
+        <div class="no-quizzes-message">
+            <p>You haven't played any quizzes yet.</p>
+        </div>
     <% } %>
 
     <div class="profile-actions">

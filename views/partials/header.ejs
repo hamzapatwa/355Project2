@@ -24,16 +24,23 @@
 						<a href="/quiz/setup">New Quiz</a>
 					</li>
 					<li>
-						<a href="/auth/profile">My Profile</a>
-					</li>
-					<li>
 						<a href="/quiz/leaderboard">Leaderboard</a>
 					</li>
-					<li>
-						<a href="/auth/logout">
-							Logout (<%= username %>)
-						</a>
-					</li>
+
+              		<div class="dropdown-container">
+                	<details class="dropdown right">
+						<summary class="avatar">
+							<img src="<%= profilePic %>" alt="Avatar" class="avatar-img" />
+						</summary>
+						<ul class="dropdown-menu">
+							<li><img src="<%= profilePic %>" alt="Avatar" class="avatar-img" /></li>
+							<li><span class="block bold">Hello, <%= username %>!</span></li>
+							<li><a href="/auth/profile">Profile</a></li>
+							<hr>
+							<li><a href="/auth/logout">Logout</a></li>
+						</ul>
+                	</details>
+              </div>
 					<% } else { %>
 					<li>
 						<a href="/auth/login">Login</a>

@@ -178,6 +178,126 @@ nav a:hover {
 }
 
 
+/* Dropdown container */
+.dropdown-container {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown summary (profile icon) */
+.avatar {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+  position: relative;
+  padding-right: 25px; /* Make room for the arrow */
+}
+
+.avatar:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Add arrow indicator */
+.avatar::after {
+  content: "▼";
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.6rem;
+  color: white;
+  transition: transform 0.3s ease;
+}
+
+/* Rotate arrow when dropdown is open */
+details[open] .avatar::after {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+/* Avatar image style */
+.avatar-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  pointer-events: none; /* This ensures clicks go through to the parent */
+}
+
+/* Dropdown menu style */
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.85);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  min-width: 160px;
+  padding: 0.5rem 0;
+  z-index: 999;
+  white-space: nowrap;
+}
+
+.dropdown-menu li:first-child {
+  padding: 1rem;
+  text-align: center;
+}
+
+.dropdown-menu li:first-child .avatar-img {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+}
+
+.dropdown-menu li:nth-child(2) {
+  padding: 0.25rem 0.5rem;
+  margin-top: -0.5rem;
+}
+
+.dropdown-menu li {
+  padding: 0.75rem 1.25rem;
+  list-style: none;
+  color: white;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.85);
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-menu li:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.dropdown-menu li a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.dropdown-menu li a:hover {
+  color: #ffd700;
+}
+
+details[open] .dropdown-menu {
+  display: block;
+}
+
+/* Make the summary element take up the full space */
+details.dropdown summary {
+  display: block;
+  cursor: pointer;
+}
+
+details.dropdown summary::-webkit-details-marker {
+  display: none;
+}
+
 /* Footer */
 footer {
   background-color: rgba(0, 0, 0, 0.5); /* semi-transparent to show bg */
@@ -1139,4 +1259,71 @@ input[type="radio"] {
 .profile-container,
 .auth-container {
   margin-top: 1rem;
+}
+
+/* Profile Picture Styles */
+.profile-picture-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: var(--light-gray);
+    border-radius: var(--border-radius);
+}
+
+.profile-picture {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 1rem;
+    image-rendering: pixelated;
+    border: 4px solid var(--primary-color);
+    border-radius: var(--border-radius);
+}
+
+.pfp-form {
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+}
+
+.pfp-form input {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.profile-info {
+    margin-top: 1rem;
+}
+
+.no-quizzes-message {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.no-quizzes-message p {
+    margin: 0.5rem 0;
+}
+
+.no-quizzes-message a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.no-quizzes-message a:hover {
+    text-decoration: underline;
+}
+
+.profile-details .quiz-history-table {
+    margin-bottom: 2rem;
+}
+
+.profile-details .quiz-history-table td:first-child {
+    width: 40%;
+    background-color: #ffcc00;
+    font-weight: bold;
+}
+
+.profile-details .quiz-history-table td:last-child {
+    width: 60%;
 }
