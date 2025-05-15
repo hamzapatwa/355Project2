@@ -23,7 +23,7 @@ A full-stack quiz application built with Express.js and EJS templating engine.
 - **Backend**: Node.js, Express.js
 - **Frontend**: HTML, CSS, JavaScript
 - **Templating**: EJS
-- **Data Storage**: Local JSON files
+- **Data Storage**: MongoDB
 - **External APIs**: Minotar API for Minecraft profile pictures
 
 ## Installation
