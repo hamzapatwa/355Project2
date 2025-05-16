@@ -112,6 +112,7 @@ a:hover {
 
 /* Header & Navigation */
 header {
+  user-select: none;
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
   font-family: 'Press Start 2P', cursive;
@@ -233,7 +234,6 @@ details[open] .avatar::after {
 
 /* Avatar image style */
 .avatar-img {
-  user-select: none;
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -243,7 +243,6 @@ details[open] .avatar::after {
 
 /* Dropdown menu style */
 .dropdown-menu {
-  user-select: none;
   display: none;
   position: absolute;
   top: 100%;
