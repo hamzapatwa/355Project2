@@ -21,7 +21,7 @@ A full-stack quiz application built with Express.js and EJS templating engine.
 | Score tracking, History and Leaderboard | Hamza, Justin, Arun |
 | Improved UI and Design | Hamza, Justin, Arun |
 | Save User Data onto MongoDB | Anthony, Hamza |
-| Use of Trivia API for Questions | Hamza |
+| Trivia API for Questions and Share Feature| Hamza |
 | User Profile with Minecraft Profile Picture Generation | Hamza, Justin, Anthony |
 
 ## Tech Stack
