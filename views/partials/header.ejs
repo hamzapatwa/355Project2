@@ -55,5 +55,18 @@
 			</nav>
 		</div>
 	</header>
+	<script>
+	const dropdown = document.querySelector('.dropdown');
+	const dropdownContainer = document.querySelector('.dropdown-container');
+
+	function closeDropdown(e) {
+		if (!dropdownContainer.contains(e.target)) {
+		dropdown.removeAttribute('open');
+		}
+	}
+
+	document.addEventListener('click', closeDropdown);
+	</script>
+	</body>
 
 	<main class="container">

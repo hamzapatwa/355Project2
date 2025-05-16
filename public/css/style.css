@@ -233,6 +233,7 @@ details[open] .avatar::after {
 
 /* Avatar image style */
 .avatar-img {
+  user-select: none;
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -242,6 +243,7 @@ details[open] .avatar::after {
 
 /* Dropdown menu style */
 .dropdown-menu {
+  user-select: none;
   display: none;
   position: absolute;
   top: 100%;
@@ -281,7 +283,7 @@ details[open] .avatar::after {
   transition: background-color 0.3s ease;
 }
 
-.dropdown-menu li:hover {
+.dropdown-menu li a:hover {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
@@ -307,10 +309,6 @@ details.dropdown summary {
   cursor: pointer;
 }
 
-details.dropdown summary::-webkit-details-marker {
-  display: none;
-}
-
 /* Footer */
 footer {
   background-color: rgba(0, 0, 0, 0.5); /* semi-transparent to show bg */
@@ -325,7 +323,6 @@ footer {
   z-index: 1000;
   image-rendering: pixelated;
 }
-
 
 /* Forms */
 .form-group {
