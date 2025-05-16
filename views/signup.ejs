@@ -16,6 +16,7 @@
                 type="text" 
                 id="username" 
                 name="username" 
+                onkeydown="return event.key !== ' '"
                 value="<%= typeof username !== 'undefined' ? username : '' %>" 
                 required
                 autofocus

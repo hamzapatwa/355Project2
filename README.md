@@ -7,16 +7,22 @@ A full-stack quiz application built with Express.js and EJS templating engine.
 - Hamza Patwa
 - Justin Weng
 - Arun Kanhai
-## Features
+## Features Project 2
 
 | Feature | Contributer(s) |
 |-------------------------------------|-----|
 | User Authentication (Login/Signup) | Hamza |
 | Timer and Selecting Number of Questions | Anthony, Hamza |
 | Random Multiple-choice Questions with Feedback | Anthony, Hamza, Arun, Justin |
-| Score tracking, History and Take Multiple Quizes | Hamza, Justin, Arun |
-| Responsive design with modern CSS | Hamza, Justin, Arun |
-| Minecraft Profile Picture Generation | Hamza, Justin, Anthony |
+
+## Features Project 3
+| Feature | Contributer(s) |
+|-------------------------------------|-----|
+| Score tracking, History and Leaderboard | Hamza, Justin, Arun |
+| Improved UI and Design | Hamza, Justin, Arun |
+| Save User Data onto MongoDB | Anthony, Hamza |
+| Use of Trivia API for Questions | Hamza |
+| User Profile with Minecraft Profile Picture Generation | Hamza, Justin, Anthony |
 
 ## Tech Stack
 

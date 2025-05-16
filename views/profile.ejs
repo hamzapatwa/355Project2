@@ -13,7 +13,7 @@
             <img src="<%= profilePic %>" alt="Profile Picture" class="profile-picture" />
             <form class="pfp-form" action="/auth/profile/update-pic" method="POST">
                 <label for="newPicName">Generate New Profile Picture</label>
-                <input type="text" name="newPicName" id="newPicName" placeholder="Enter name" required />
+                <input type="text" name="newPicName" id="newPicName" placeholder="Enter name" onkeydown="return event.key !== ' '" required />
                 <button type="submit" class="btn submit-btn">Generate New Picture</button>
             </form>
         </div>
