@@ -69,7 +69,7 @@ npm run dev
 - `routes/` - Express route handlers
 - `views/` - EJS templates
 - `public/` - Static assets (CSS, client-side JavaScript)
-- `data/` - JSON data files (users.json, questions.json)
+- `data/` - MongoDB
 - `utils/` - Utility functions
 
 ## Development
