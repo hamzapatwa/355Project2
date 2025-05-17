@@ -57,7 +57,13 @@
     </form>
   </div>
 </div>
-
+<% if ( feedback){ %>
+  <script>
+    setTimeout(() => {
+      window.location.href = '/quiz/question'; 
+    }, 3000); //redirect to next question after 3 sec
+  </script>
+<% } %>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   const timerDuration = parseInt('<%= timerDuration %>', 10);
